@@ -26,8 +26,7 @@ class Layout extends Component {
   }
 
   render() {
-    console.log('user in personal ', this.props.user);
-    const {user: {firstname, lastname, username, mobile, email, gender, address, city, zip, state, country}} = this.props;
+    const {user: {firstname, lastname, username, mobile, email, gender, address, city, zip, state, country}, onChange} = this.props;
     return (
       <KeyboardView style={{flex: 1}}>
         <Container noStatusbarPadding>
@@ -36,11 +35,11 @@ class Layout extends Component {
               <Form>
                 <Item floatingLabel>
                   <Label>FirstName</Label>
-                  <Input value={firstname}/>
+                  <Input value={firstname} name="firstname" onChangeText={val => onChange("firstname", val)}/>
                 </Item>
                 <Item floatingLabel>
                   <Label>LastName</Label>
-                  <Input value={lastname}/>
+                  <Input value={lastname} name="lastname" onChangeText={val => onChange("lastname", val)}/>
                 </Item>
                 <Item floatingLabel disabled>
                   <Label>UserName</Label>
@@ -48,11 +47,11 @@ class Layout extends Component {
                 </Item>
                 <Item floatingLabel>
                   <Label>Mobile</Label>
-                  <Input value={mobile}/>
+                  <Input value={mobile} keyboardType="numeric" name="mobile" onChangeText={val => onChange("mobile", val)}/>
                 </Item>
                 <Item floatingLabel>
                   <Label>E-mail</Label>
-                  <Input value={email}/>
+                  <Input value={email} name="email" onChangeText={val => onChange("email", val)}/>
                 </Item>
                 <Item>
                   <Label>Gender</Label>
@@ -74,15 +73,15 @@ class Layout extends Component {
                 </Item>
                 <Item floatingLabel>
                   <Label>Address</Label>
-                  <Textarea rowSpan={5} value={address} bordered/>
+                  <Input rowSpan={5} value={address} bordered name="address" onChangeText={val => onChange("address", val)}/>
                 </Item>
-                <Item floatingLabel>
+                <Item disabled floatingLabel>
                   <Label>City</Label>
-                  <Input value={city}/>
+                  <Input value={city} disabled/>
                 </Item>
                 <Item floatingLabel>
                   <Label>Zip</Label>
-                  <Input value={zip}/>
+                  <Input value={zip} name="zip" onChangeText={val => onChange("zip", val)}/>
                 </Item>
                 <Item floatingLabel disabled>
                   <Label>State</Label>

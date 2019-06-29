@@ -2,15 +2,17 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import NavigationService from '../../navigation/Navigation-Service';
 import {update} from "../../actions/User-Account-Address-Update-Action";
+import { saveOrUpdateUser } from '../../actions/studentActions';
 import Layout from "./Layout";
 import PersonalDetailHeader from "./PersonalDetailHeader";
+import {Toast} from "native-base";
 
 class PersonalDetailScreen extends Component {
 
   static navigationOptions = ({navigation}) => {
     const {params = {}} = navigation.state;
     return {
-      headerTitle: <PersonalDetailHeader goBack={() => NavigationService.goBack()}/>,
+      headerTitle: <PersonalDetailHeader goBack={() => NavigationService.goBack()} onSave={() =>  navigation.getParam('onSave')()}/>,
     };
   }
 
@@ -29,6 +31,7 @@ class PersonalDetailScreen extends Component {
       avatar: '',
       token: '',
       mobile: '',
+      address: '',
       city: '',
       zip: '',
       state: '',
@@ -38,15 +41,17 @@ class PersonalDetailScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigation.setParams({edit: this.edit});
     let {user} = this.props.screenProps;
     await this.setState({ ...user });
+    this.props.navigation.setParams({
+      onSave: this.onSave.bind(this),
+    });
   }
 
-  handleTextChange = (sender, inputValue, index) => {
-    let newState = Object.assign({}, {...this.state});
-    newState.data[index][sender] = inputValue;
-    this.setState(newState);
+  onChange = async (key, value) => {
+    await this.setState({[key]: value}, () => {
+      console.log('value is set now', this.state.email);
+    });
   };
 
   edit = () => {
@@ -56,15 +61,34 @@ class PersonalDetailScreen extends Component {
       .catch(error => Toast.showError(error.message || error));
   };
 
+  onSave = () => {
+    //this.state contains the actual user object including every parent child data
+    this.props.saveOrUpdateUser(this.state, this.props.authString);
+    Toast.show({
+      text: "Personal details saved successfully!",
+      duration: 2500,
+      position: "bottom",
+      type: 'success',
+      buttonText: 'Dismiss',
+      textStyle: {textAlign: "center"}
+    });
+    NavigationService.goBack()
+  };
+
   render() {
-    console.log('this.state ', this.state);
     return (
       <Layout
-        onChangeText={this.handleTextChange}
+        onChange={this.onChange}
         user={this.state}
       />
     );
   }
 }
 
-export default connect(null, {update})(PersonalDetailScreen);
+function mapStateToProps(state) {
+  const {isLoggedIn, authorities, loginError, loginErrorMessage, authString} = state.user;
+  const { studentList, errorMessage, isRequesting } = state.student;
+  return {isLoggedIn, authorities, loginError, isRequesting, loginErrorMessage, authString, studentList, errorMessage};
+}
+
+export default connect(mapStateToProps, {update, saveOrUpdateUser})(PersonalDetailScreen);

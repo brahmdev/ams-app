@@ -57,9 +57,9 @@ export function getAllBatchOfStandardLookUp(standardId) {
   };
 }
 
-export function saveOrUpdateUser(user) {
+export function saveOrUpdateUser(user, authString) {
   return {
-    type: subjectActionTypes.API_CREATE_SUBJECT,
+    type: studentActionTypes.API_UPDATE_STUDENT,
     apiType: CALL_API,
     callAPI: {
       apiPathWithParam: `/admin/users/`,
@@ -67,6 +67,9 @@ export function saveOrUpdateUser(user) {
         method: 'POST',
         contentType: 'application/json',
         body: JSON.stringify(user)
+      },
+      payload: {
+        authString
       }
     },
     payload: { user }

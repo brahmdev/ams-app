@@ -19,7 +19,7 @@ export default class PersonalDetailHeader extends Component {
           <Title>Personal Details</Title>
           </Body>
           <Right>
-            <Button transparent>
+            <Button transparent onPress={() => this.props.onSave()}>
               <Text>Save</Text>
             </Button>
           </Right>
