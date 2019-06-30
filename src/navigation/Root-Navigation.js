@@ -8,6 +8,7 @@ import SignInScreen from '../screens/signin';
 import SignUpScreen from '../screens/signup';
 import SplashScreen from '../screens/splash';
 import ModalScreen from '../screens/modal';
+import AddStudent from "../screens/addStudent";
 
 const AuthStack = createStackNavigator(
     {
@@ -19,7 +20,8 @@ const AuthStack = createStackNavigator(
 const AppStackNavigation = createStackNavigator(
     {
         Main: MainTabNavigator,
-        Edit: AccountTabNavigator
+        Edit: AccountTabNavigator,
+        Add: AddStudent
     }, {
         mode: 'modal',
         headerMode: 'none'

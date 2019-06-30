@@ -6,6 +6,7 @@ import { TabBarIcon } from '../components';
 import HomeScreen from '../screens/home';
 import StudentScreen from '../screens/student'
 import AccountScreen from '../screens/account';
+import AddStudentScreen from '../screens/addStudent';
 
 import { defaultNavigationOptions } from '../constants/Styles';
 
@@ -41,6 +42,22 @@ StudentStack.navigationOptions = {
   )
 };
 
+const AddStudentStack = createStackNavigator({ AddStudentScreen }, { defaultNavigationOptions });
+
+AddStudentStack.navigationOptions = {
+  tabBarLabel: 'Add Student',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-add-${focused ? '' : '-outline'}`
+          : 'md-add'
+      }
+    />
+  )
+};
+
 const AccountStack = createStackNavigator({ AccountScreen }, { defaultNavigationOptions });
 
 AccountStack.navigationOptions = {
@@ -60,5 +77,6 @@ AccountStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   StudentStack,
+  AddStudentStack,
   AccountStack
 });

@@ -10,11 +10,10 @@ import {Toast} from "native-base";
 class PersonalDetailScreen extends Component {
 
   static navigationOptions = ({navigation}) => {
-    const {params = {}} = navigation.state;
     return {
       headerTitle: <PersonalDetailHeader goBack={() => NavigationService.goBack()} onSave={() =>  navigation.getParam('onSave')()}/>,
     };
-  }
+  };
 
   constructor(props) {
     super(props);

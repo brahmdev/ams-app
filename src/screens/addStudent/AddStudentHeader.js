@@ -1,28 +1,23 @@
 import React, {Component} from 'react';
 import { Platform, Dimensions } from "react-native";
-import {Container, Header, Left, Body, Right, Button, Icon, Title, View} from 'native-base';
+import {Container, Text, Header, Left, Body, Right, Button, Icon, Title, View} from 'native-base';
 
 const screen = Dimensions.get("window");
 
-export default class StudentHeader extends Component {
+export default class AddStudentHeader extends Component {
   render() {
     return (
       <View style={{width: screen.width}} >
 
-      <Header searchBar>
+        <Header searchBar>
           <Left>
             <Button transparent onPress={() => this.props.goBack()}>
               <Icon name='arrow-back'/>
             </Button>
           </Left>
           <Body>
-          <Title>Student List</Title>
+          <Title>Add Student</Title>
           </Body>
-          <Right>
-            <Button transparent>
-              <Icon name='search'/>
-            </Button>
-          </Right>
         </Header>
       </View>
     );

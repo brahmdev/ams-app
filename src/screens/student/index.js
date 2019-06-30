@@ -10,7 +10,7 @@ import Loading from "../../components/Loading";
 import StudentHeader from "./StudentHeader";
 class StudentScreen extends Component {
 
-  static navigationOptions = () => {
+  static navigationOptions = ({navigation}) => {
     return {
       headerTitle: <StudentHeader goBack={() =>  NavigationService.goBack()}/>,
     }
@@ -29,12 +29,10 @@ class StudentScreen extends Component {
   }
 
   componentDidMount() {
-    console.log('authstring is ', this.props.authString);
     this.props.getAllStudents(1, this.props.authString);
   }
 
   static goBack = () => {
-    console.log('in goback');
     this.props.navigation.goBack();
   };
 

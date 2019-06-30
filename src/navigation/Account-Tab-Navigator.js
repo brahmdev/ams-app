@@ -59,7 +59,7 @@ export default createBottomTabNavigator({
             )
         })
     },
-    ParentDetails: {
+    /*ParentDetails: {
         screen: withUserParams(ParentDetailStack),
         navigationOptions: () => ({
             tabBarLabel: 'Parent Details',
@@ -74,5 +74,5 @@ export default createBottomTabNavigator({
                 />
             )
         })
-    }
+    }*/
 });

@@ -33,6 +33,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-extended-stylesheet": "^0.11.1",
     "react-native-flexi-radio-button": "^0.2.2",
+    "react-native-js-stepper": "^0.2.1",
     "react-native-responsive-screen": "^1.2.0",
     "react-native-svg": "^9.5.1",
     "react-native-web": "^0.11.4",
