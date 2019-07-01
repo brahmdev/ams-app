@@ -31,20 +31,23 @@ export function getParentDetails(studentUserName) {
   };
 }
 
-export function getAllStandardLookUpForStudent(instituteId) {
+export function getAllStandardLookUpForStudent(branchId, authString) {
   return {
     type: studentActionTypes.API_GET_ALL_STANDARD_LOOKUP_FOR_STUDENT_ADMISSION,
     apiType: CALL_API,
     callAPI: {
-      apiPathWithParam: `/admin/standards/${instituteId}/lookup`,
+      apiPathWithParam: `/admin/standards/${branchId}/lookup`,
       options: {
         method: 'GET'
+      },
+      payload: {
+        authString
       }
     },
   };
 }
 
-export function getAllBatchOfStandardLookUp(standardId) {
+export function getAllBatchOfStandardLookUp(standardId, authString) {
   return {
     type: studentActionTypes.API_GET_BATCH_FOR_STUDENT_ADMISSION,
     apiType: CALL_API,
@@ -52,6 +55,9 @@ export function getAllBatchOfStandardLookUp(standardId) {
       apiPathWithParam: `/admin/batches/standard/${standardId}/lookup`,
       options: {
         method: 'GET'
+      },
+      payload: {
+        authString
       }
     },
   };

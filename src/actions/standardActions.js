@@ -13,7 +13,7 @@ export function getAllStandards(instituteId) {
   };
 }
 
-export function getStandard(standardId) {
+export function getStandard(standardId, authString) {
   return {
     type: standardActionTypes.API_GET_STANDARD,
     apiType: CALL_API,
@@ -21,6 +21,9 @@ export function getStandard(standardId) {
       apiPathWithParam: `/admin/standards/${standardId}/current`,
       options: {
         method: 'GET'
+      },
+      payload: {
+        authString
       }
     },
   };

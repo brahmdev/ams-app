@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {KeyboardView} from "../../components/KeyboardView";
+import {connect} from 'react-redux';
 import { View, Text } from 'native-base';
 import NavigationService from "../../navigation/Navigation-Service";
 import AddStudentHeader from "./AddStudentHeader";
@@ -8,6 +8,9 @@ import { StyleSheet } from 'react-native'
 import { ProgressSteps, ProgressStep } from '../../components/ProgressSteps';
 import AddStudent from "../../components/Student/AddStudent";
 import AddParent from "../../components/Student/AddParent";
+import { getAllStandardLookUpForStudent, getAllBatchOfStandardLookUp, saveOrUpdateUser } from "../../actions/studentActions";
+import { getStandard } from "../../actions/standardActions";
+import AddAcademics from "../../components/Student/AddAcademics";
 
 class AddStudentScreen extends Component {
 
@@ -82,13 +85,17 @@ class AddStudentScreen extends Component {
     hasPaidFees: false
   };
 
+  componentDidMount() {
+    const branchId = 1;
+    this.props.getAllStandardLookUpForStudent(branchId, this.props.user.authString);
+  }
+
 
   onNextStep = () => {
     console.log('called next step');
   };
 
   onPersonalDetailComplete = () => {
-    alert('Payment step completed!');
     console.log('studentPersonalDetailsFieldsValue ', this.studentPersonalDetailsFieldsValue);
     //this.setState({errors: true, isValid: false})
   };
@@ -156,8 +163,8 @@ class AddStudentScreen extends Component {
   };
 
   handleStandardChange(standardId) {
-    this.props.getAllBatchOfStandardLookUp(standardId);
-    this.props.getStandard(standardId);
+    this.props.getAllBatchOfStandardLookUp(standardId, this.props.user.authString);
+    this.props.getStandard(standardId, this.props.user.authString);
   };
 
   onChangeStudentAcademicDetailsFormField = (data) => {
@@ -204,7 +211,12 @@ class AddStudentScreen extends Component {
             errors={this.state.errors}
             scrollViewProps={this.defaultScrollViewProps}
           >
-              <Text>Billing address step content</Text>
+            <AddAcademics onChange={this.onChangeStudentAcademicDetailsFormField}
+                                        errors={this.state.studentAcademicDetailsErrors}
+                                        values={this.studentAcademicDetailsFieldsValue}
+                                        standardLookUp={this.props.student.standardLookUp}
+                                        onStandardChange={(standardId) => this.handleStandardChange(standardId)}
+                                        batchLookUp={this.props.student.batchLookUp}/>
           </ProgressStep>
           <ProgressStep
             label="Agreement"
@@ -249,4 +261,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddStudentScreen;
+function mapStateToProps(state) {
+  const {subject, standard, student, user} = state;
+  return {standard, subject, student, user};
+}
+
+const mapDispatchToProps = {
+  getStandard,
+  getAllStandardLookUpForStudent,
+  getAllBatchOfStandardLookUp,
+  createUser: saveOrUpdateUser
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddStudentScreen);
