@@ -7,6 +7,7 @@ import Stepper from 'react-native-js-stepper'
 import { StyleSheet } from 'react-native'
 import { ProgressSteps, ProgressStep } from '../../components/ProgressSteps';
 import AddStudent from "../../components/Student/AddStudent";
+import AddParent from "../../components/Student/AddParent";
 
 class AddStudentScreen extends Component {
 
@@ -16,19 +17,25 @@ class AddStudentScreen extends Component {
     };
   };
 
-  /*state = {
+  state = {
     isValid: false,
-    errors: false
-  };*/
+    errors: false,
+    studentPersonalDetailsErrors: [],
+    parentDetailsErrors: [],
+    studentAcademicDetailsErrors: []
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      studentPersonalDetailsErrors: [],
-      parentDetailsErrors: [],
-      studentAcademicDetailsErrors: []
+  componentDidMount() {
+
+  };
+
+  defaultScrollViewProps = {
+    keyboardShouldPersistTaps: 'handled',
+    contentContainerStyle: {
+      flex: 1,
+      justifyContent: 'center'
     }
-  }
+  };
 
   studentPersonalDetailsRequiredFields = [
     'firstname',
@@ -51,25 +58,43 @@ class AddStudentScreen extends Component {
     country: 'India'
   };
 
-  componentDidMount() {
+  parentDetailsRequiredFields = [
+    'firstname',
+    'lastname',
+    'username',
+    'password',
+    'mobile',
+    'gender',
+    'email'
+  ];
 
+  parentDetailsFieldsValue =  {};
+
+  studentAcademicDetailsRequiredFields = [
+    'rollNo',
+    'admissionDate',
+    'standard',
+    'batch'
+  ];
+
+  studentAcademicDetailsFieldsValue = {
+    admissionDate: new Date(),
+    hasPaidFees: false
   };
 
-  defaultScrollViewProps = {
-    keyboardShouldPersistTaps: 'handled',
-    contentContainerStyle: {
-      flex: 1,
-      justifyContent: 'center'
-    }
-  };
 
   onNextStep = () => {
     console.log('called next step');
   };
 
-  onPaymentStepComplete = () => {
+  onPersonalDetailComplete = () => {
     alert('Payment step completed!');
+    console.log('studentPersonalDetailsFieldsValue ', this.studentPersonalDetailsFieldsValue);
     //this.setState({errors: true, isValid: false})
+  };
+
+  onParentDetailComplete = () => {
+    console.log('parentDetailsFieldsValue ', this.parentDetailsFieldsValue);
   };
 
   onPrevStep = () => {
@@ -80,10 +105,25 @@ class AddStudentScreen extends Component {
     console.log('called on submit step.');
   };
 
-  onChangeStudentPersonalDetailsFormField = (data) => {
-    const {name, value} = data;
+  makeUserName = (firstname, lastname, length) => {
+    var name = firstname + lastname;
+    var username = '';
+    var characters = name;
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      username += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return username;
+  };
+
+  isValidDate(d) {
+    return d instanceof Date && !isNaN(d);
+  };
+
+  onChangeStudentPersonalDetailsFormField = (name, value) => {
     const {studentPersonalDetailsErrors} = this.state;
     this.studentPersonalDetailsFieldsValue[name] = value;
+
     if ((value && value.length > 0) || (name === 'dob' && this.isValidDate(value))) {
       studentPersonalDetailsErrors[name] = false;
       this.setState({studentPersonalDetailsErrors, isStudentPersonalDetailsFormValid: false});
@@ -98,31 +138,64 @@ class AddStudentScreen extends Component {
     }
   };
 
+  onChangeParentDetailsFormField = (name, value) => {
+    const {parentDetailsErrors} = this.state;
+    this.parentDetailsFieldsValue[name] = value;
+    if (value && value.length > 0) {
+      parentDetailsErrors[name] = false;
+      this.setState({parentDetailsErrors, isParentDetailsFormInValid: false});
+    }
+    if (this.parentDetailsFieldsValue.username && this.parentDetailsFieldsValue.username.trim().length > 0) {
+      return;
+    } else if (this.parentDetailsFieldsValue.firstname && this.parentDetailsFieldsValue.lastname && this.parentDetailsFieldsValue.firstname.trim().length > 0 && this.parentDetailsFieldsValue.lastname.trim().length > 0) {
+      const parentDetailsRequiredFields = this.parentDetailsFieldsValue;
+      parentDetailsRequiredFields.username = this.makeUserName(this.parentDetailsFieldsValue.firstname, this.parentDetailsFieldsValue.lastname, 6);
+      parentDetailsErrors.username = false;
+      this.setState({parentDetailsErrors});
+    }
+  };
+
+  handleStandardChange(standardId) {
+    this.props.getAllBatchOfStandardLookUp(standardId);
+    this.props.getStandard(standardId);
+  };
+
+  onChangeStudentAcademicDetailsFormField = (data) => {
+    const {name, value} = data;
+    const {studentAcademicDetailsErrors} = this.state;
+    this.studentAcademicDetailsFieldsValue[name] = value;
+    if (value && value.length > 0) {
+      studentAcademicDetailsErrors[name] = false;
+      this.setState({studentAcademicDetailsErrors, isParentDetailsFormInValid: false});
+    }
+  };
+
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <ProgressSteps>
           <ProgressStep
             label="Personal"
-            onNext={this.onPaymentStepComplete}
+            onNext={this.onPersonalDetailComplete}
             onPrevious={this.onPrevStep}
             errors={this.state.errors}
             scrollViewProps={this.defaultScrollViewProps}
           >
-              <AddStudent onChange={this.onChangeStudentPersonalDetailsFormField}
-                          errors={this.state.studentPersonalDetailsErrors}
-                          values={this.studentPersonalDetailsFieldsValue}/>
+            <AddStudent onChange={this.onChangeStudentPersonalDetailsFormField}
+                        errors={this.state.studentPersonalDetailsErrors}
+                        values={this.studentPersonalDetailsFieldsValue}/>
           </ProgressStep>
           <ProgressStep
             label="Parent"
-            onNext={this.onNextStep}
+            onNext={this.onParentDetailComplete}
             onPrevious={this.onPrevStep}
             errors={this.state.errors}
             scrollViewProps={this.defaultScrollViewProps}
           >
-            <View style={{ alignItems: 'center' }}>
-              <Text>Shipping address step content</Text>
-            </View>
+            <AddParent onChange={this.onChangeParentDetailsFormField}
+                        errors={this.state.parentDetailsErrors}
+                        values={this.parentDetailsFieldsValue}/>
           </ProgressStep>
           <ProgressStep
             label="Academic"
@@ -131,9 +204,7 @@ class AddStudentScreen extends Component {
             errors={this.state.errors}
             scrollViewProps={this.defaultScrollViewProps}
           >
-            <View style={{ alignItems: 'center' }}>
               <Text>Billing address step content</Text>
-            </View>
           </ProgressStep>
           <ProgressStep
             label="Agreement"
@@ -142,9 +213,7 @@ class AddStudentScreen extends Component {
             errors={this.state.errors}
             scrollViewProps={this.defaultScrollViewProps}
           >
-            <View style={{ alignItems: 'center' }}>
               <Text>Confirm order step content</Text>
-            </View>
           </ProgressStep>
         </ProgressSteps>
       </View>

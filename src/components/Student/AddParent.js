@@ -3,7 +3,7 @@ import {KeyboardView} from "../KeyboardView";
 import {Container, Content, Form, Icon, Input, Item, Label, Picker, DatePicker} from "native-base";
 import {ScrollView, StyleSheet} from "react-native";
 
-class AddStudent extends Component {
+class AddParent extends Component {
 
   render() {
     const {errors, values, onChange} = this.props;
@@ -75,24 +75,20 @@ class AddStudent extends Component {
                   </Picker>
                 </Item>
                 <Item floatingLabel>
-                  <Label>Address</Label>
-                  <Input rowSpan={5} value={values['address'] ? values['address'] : ''} bordered name="address" onChangeText={val => onChange("address", val)}/>
-                </Item>
-                <Item disabled floatingLabel>
-                  <Label>City</Label>
-                  <Input value={values['city'] ? values['city'] : ''} disabled/>
+                  <Label>Relation</Label>
+                  <Input rowSpan={5} value={values['relation'] ? values['relation'] : ''} bordered name="relation" onChangeText={val => onChange("relation", val)}/>
                 </Item>
                 <Item floatingLabel>
-                  <Label>Zip</Label>
-                  <Input value={values['zip'] ? values['zip'] : ''} name="zip" onChangeText={val => onChange("zip", val)}/>
+                  <Label>Occupation</Label>
+                  <Input value={values['occupation'] ? values['occupation'] : ''} name="occupation" onChangeText={val => onChange("occupation", val)}/>
                 </Item>
-                <Item floatingLabel disabled>
-                  <Label>State</Label>
-                  <Input value={values['state'] ? values['state'] : ''} disabled/>
+                <Item floatingLabel>
+                  <Label>Income</Label>
+                  <Input value={values['income'] ? values['income'] : ''} name="income" onChangeText={val => onChange("income", val)}/>
                 </Item>
-                <Item floatingLabel disabled>
-                  <Label>Country</Label>
-                  <Input value={values['country'] ? values['country'] : ''} disabled/>
+                <Item floatingLabel>
+                  <Label>Education</Label>
+                  <Input value={values['education'] ? values['education'] : ''} name="education" onChangeText={val => onChange("education", val)}/>
                 </Item>
               </Form>
             </ScrollView>
@@ -117,4 +113,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default AddStudent;
+export default AddParent;
