@@ -56,6 +56,7 @@ class AddStudentScreen extends Component {
 
   studentPersonalDetailsFieldsValue =  {
     dob: new Date(),
+    gender: "Male",
     city: 'Mumbai',
     state: 'Maharashtra',
     country: 'India'
@@ -71,7 +72,9 @@ class AddStudentScreen extends Component {
     'email'
   ];
 
-  parentDetailsFieldsValue =  {};
+  parentDetailsFieldsValue =  {
+    "gender": "Male"
+  };
 
   studentAcademicDetailsRequiredFields = [
     'rollNo',
@@ -83,6 +86,12 @@ class AddStudentScreen extends Component {
   studentAcademicDetailsFieldsValue = {
     admissionDate: new Date(),
     hasPaidFees: false
+  };
+
+  studentUser = '';
+  parentUser = '';
+  branch =  {
+    "id": 1
   };
 
   componentDidMount() {
@@ -97,11 +106,57 @@ class AddStudentScreen extends Component {
 
   onPersonalDetailComplete = () => {
     console.log('studentPersonalDetailsFieldsValue ', this.studentPersonalDetailsFieldsValue);
+    this.studentUser = this.studentPersonalDetailsFieldsValue;
+    this.studentUser.branch = this.branch;
+    const authoritiesesStudent = {
+      username: this.studentUser.username,
+      authority: 'ROLE_STUDENT'
+    };
+    this.studentUser.created = new Date();
+    this.studentUser.authoritieses = [authoritiesesStudent];
+
     //this.setState({errors: true, isValid: false})
   };
 
   onParentDetailComplete = () => {
-    console.log('parentDetailsFieldsValue ', this.parentDetailsFieldsValue);
+    this.parentUser = this.parentDetailsFieldsValue;
+    this.parentUser.branch = this.branch;
+    this.parentUser.address = this.studentUser.address;
+    this.parentUser.city = this.studentUser.city;
+    this.parentUser.state = this.studentUser.state;
+    this.parentUser.zip = this.studentUser.zip;
+    this.parentUser.country = this.studentUser.country;
+    this.parentUser.created = new Date();
+
+    let parentDetails = {};
+    parentDetails.relation = this.parentDetailsFieldsValue.relation;
+    parentDetails.occupation = this.parentDetailsFieldsValue.occupation;
+    parentDetails.education = this.parentDetailsFieldsValue.education;
+    parentDetails.income = this.parentDetailsFieldsValue.income;
+    this.parentUser.parentDetailses = [parentDetails];
+
+    const authoritiesesParent = {
+      username: this.parentUser.username,
+      authority: 'ROLE_PARENT'
+    };
+    this.parentUser.authoritieses = [authoritiesesParent];
+  };
+
+  onAcademicDetailComplete = () => {
+    if (this.studentAcademicDetailsFieldsValue.hasPaidFees === true) {
+      this.studentAcademicDetailsFieldsValue.hasPaidFees = "Y";
+    } else {
+      this.studentAcademicDetailsFieldsValue.hasPaidFees = "N";
+    }
+    const batchId = this.studentAcademicDetailsFieldsValue.batch;
+    delete this.studentAcademicDetailsFieldsValue['batch'];
+    const batch = {
+      "id": batchId
+    };
+    this.studentAcademicDetailsFieldsValue.batch = batch;
+    this.studentAcademicDetailsFieldsValue.parentsUsername = this.parentDetailsFieldsValue.username;
+
+    this.studentUser.studentDetailses = [this.studentAcademicDetailsFieldsValue];
   };
 
   onPrevStep = () => {
@@ -109,7 +164,10 @@ class AddStudentScreen extends Component {
   };
 
   onSubmitSteps = () => {
-    console.log('called on submit step.');
+    console.log('called on submit step. StudentUser ', this.studentUser);
+    console.log('parent user is ', this.parentUser);
+    this.props.createUser(this.studentUser, this.props.user.authString);
+    this.props.createUser(this.parentUser, this.props.user.authString);
   };
 
   makeUserName = (firstname, lastname, length) => {
@@ -167,8 +225,7 @@ class AddStudentScreen extends Component {
     this.props.getStandard(standardId, this.props.user.authString);
   };
 
-  onChangeStudentAcademicDetailsFormField = (data) => {
-    const {name, value} = data;
+  onChangeStudentAcademicDetailsFormField = (name, value) => {
     const {studentAcademicDetailsErrors} = this.state;
     this.studentAcademicDetailsFieldsValue[name] = value;
     if (value && value.length > 0) {
@@ -206,7 +263,7 @@ class AddStudentScreen extends Component {
           </ProgressStep>
           <ProgressStep
             label="Academic"
-            onNext={this.onNextStep}
+            onNext={this.onAcademicDetailComplete}
             onPrevious={this.onPrevStep}
             errors={this.state.errors}
             scrollViewProps={this.defaultScrollViewProps}
