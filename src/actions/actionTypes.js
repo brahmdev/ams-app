@@ -71,3 +71,8 @@ export const studentActionTypes = {
   API_GET_ALL_STUDENTS: 'API_GET_ALL_STUDENTS',
   API_GET_PARENT: 'API_GET_PARENT'
 };
+
+export const imageActionType = {
+  API_UPLOAD_AVATAR: 'API_UPLOAD_AVATAR',
+  API_UPLOAD_SIGN: 'API_UPLOAD_SIGN'
+};

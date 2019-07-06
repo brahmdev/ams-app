@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Font } from 'expo';
 import { connect } from 'react-redux';
 import { memoize } from "../../helpers/Async-Helpers";
-import curveLinesAnimation from "../../assets/animations/curves-lines.json";
+import curveLinesAnimation from "../../../assets/animations/curves-lines.json";
 import Layout from "./Layout";
 import {clearErrorMessage, login} from "../../actions/userActions";
 
@@ -33,8 +33,8 @@ class SplashScreen extends Component {
 
     loadFontsAsync = async () => {
         return Font.loadAsync({
-            'Robotomedium': require('../../assets/fonts/SpaceMono-Regular.ttf'),
-            'helvetica-neue': require('../../assets/fonts/SpaceMono-Regular.ttf')
+            'Robotomedium': require('../../../assets/fonts/SpaceMono-Regular.ttf'),
+            'helvetica-neue': require('../../../assets/fonts/SpaceMono-Regular.ttf')
         });
     };
 

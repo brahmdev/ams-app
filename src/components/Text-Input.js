@@ -3,7 +3,7 @@ import { View, TextInput, Image, Keyboard } from 'react-native';
 import EStyleSheet from "react-native-extended-stylesheet";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Settings from '../constants/Settings';
-import { TextInputNormalState, TextInputValidState, TextInputErrorState} from "../assets/icons";
+import { TextInputNormalState, TextInputValidState, TextInputErrorState} from "../../assets/icons";
 import Text from "./Text";
 
 const SELECTED = "#00A0C6";

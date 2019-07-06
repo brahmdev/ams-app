@@ -3,7 +3,7 @@ import { TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Settings } from '../constants';
-import { SignupTick } from "../assets/icons";
+import { SignupTick } from "../../assets/icons";
 import Text from './Text';
 
 class CheckBox extends React.Component {

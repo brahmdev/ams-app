@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import Dimensions from '../constants/Dimensions';
-import BackIcon from '../assets/icons/back.png';
+import BackIcon from '../../assets/icons/back.png';
 
 const HeaderBackButton = ({ onPress }) =>
     <TouchableOpacity style={styles.container} onPress={onPress}>

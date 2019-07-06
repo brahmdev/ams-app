@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, FlatList, View} from "react-native";
 import {Text, UserAvatar, ListFooterLoading} from "../../components";
-import {Male, Female} from "../../assets/icons";
+import {Male, Female} from "../../../assets/icons";
 import { Container, Header, Content, List, ListItem, Text } from 'native-base';
 
 const UserItem = ({item, onPressItem}) => {

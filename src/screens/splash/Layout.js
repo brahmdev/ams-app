@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { DangerZone } from 'expo';
-import splash from '../../assets/images/splash.jpg';
+import splash from '../../../assets/images/splash.jpg';
 import { Container } from "../../components";
 import styles from "./style";
 

@@ -23,8 +23,8 @@ import styles from "./style";
 import {KeyboardView} from '../../components/KeyboardView';
 
 
-const bg = require("../../assets/images/bg.png");
-const logo = require("../../assets/images/logo.png");
+const bg = require("../../../assets/images/bg.png");
+const logo = require("../../../assets/images/logo.png");
 
 const required = value => (value ? undefined : "Required");
 const maxLength = max => value =>

@@ -33,8 +33,8 @@ const UserItem = ({item, onPressItem}) => {
 
 const renderUsers = (listProps) => {
   let userItems = [];
-  listProps.items.forEach(item => userItems.push(<UserItem key={item.username} item={item}
-                                                           onPressItem={listProps.onItemSelected}/>));
+  listProps.items ? listProps.items.forEach(item => userItems.push(<UserItem key={item.username} item={item}
+                                                           onPressItem={listProps.onItemSelected}/>)) : null;
   return userItems;
 };
 

@@ -8,9 +8,11 @@ import { StyleSheet } from 'react-native'
 import { ProgressSteps, ProgressStep } from '../../components/ProgressSteps';
 import AddStudent from "../../components/Student/AddStudent";
 import AddParent from "../../components/Student/AddParent";
-import { getAllStandardLookUpForStudent, getAllBatchOfStandardLookUp, saveOrUpdateUser } from "../../actions/studentActions";
+import { getAllStandardLookUpForStudent, getAllBatchOfStandardLookUp, saveOrUpdateUser, uploadImage, uploadBase64Image } from "../../actions/studentActions";
 import { getStandard } from "../../actions/standardActions";
 import AddAcademics from "../../components/Student/AddAcademics";
+import SignaturePhoto from "../../components/Student/SignaturePhoto";
+import Avatar from "../../components/Student/Avatar";
 
 class AddStudentScreen extends Component {
 
@@ -26,10 +28,6 @@ class AddStudentScreen extends Component {
     studentPersonalDetailsErrors: [],
     parentDetailsErrors: [],
     studentAcademicDetailsErrors: []
-  };
-
-  componentDidMount() {
-
   };
 
   defaultScrollViewProps = {
@@ -54,14 +52,6 @@ class AddStudentScreen extends Component {
     'zip',
   ];
 
-  studentPersonalDetailsFieldsValue =  {
-    dob: new Date(),
-    gender: "Male",
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    country: 'India'
-  };
-
   parentDetailsRequiredFields = [
     'firstname',
     'lastname',
@@ -72,10 +62,6 @@ class AddStudentScreen extends Component {
     'email'
   ];
 
-  parentDetailsFieldsValue =  {
-    "gender": "Male"
-  };
-
   studentAcademicDetailsRequiredFields = [
     'rollNo',
     'admissionDate',
@@ -83,22 +69,53 @@ class AddStudentScreen extends Component {
     'batch'
   ];
 
-  studentAcademicDetailsFieldsValue = {
-    admissionDate: new Date(),
-    hasPaidFees: false
-  };
-
   studentUser = '';
   parentUser = '';
   branch =  {
     "id": 1
   };
 
+  studentPersonalDetailsFieldsValue = {};
+  parentDetailsFieldsValue = {};
+  studentAcademicDetailsFieldsValue = {};
+  avatar = '';
+  sign = '';
+
   componentDidMount() {
+    this.resetAndInitializeWizardValues();
     const branchId = 1;
     this.props.getAllStandardLookUpForStudent(branchId, this.props.user.authString);
   }
 
+  resetAndInitializeWizardValues = ()  => {
+    this.studentPersonalDetailsFieldsValue = {};
+    this.parentDetailsFieldsValue = {};
+    this.studentAcademicDetailsFieldsValue = {};
+
+    this.studentPersonalDetailsFieldsValue =  {
+      dob: new Date(),
+      gender: "Male",
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      country: 'India'
+    };
+    this.parentDetailsFieldsValue =  {
+      "gender": "Male"
+    };
+    this.studentAcademicDetailsFieldsValue = {
+      admissionDate: new Date(),
+      hasPaidFees: false
+    };
+    this.setState({
+      errors: false,
+      studentPersonalDetailsErrors: [],
+      parentDetailsErrors: [],
+      studentAcademicDetailsErrors: []
+    });
+
+    //this.avatar = '';
+    //this.sign = '';
+  };
 
   onNextStep = () => {
     console.log('called next step');
@@ -164,10 +181,23 @@ class AddStudentScreen extends Component {
   };
 
   onSubmitSteps = () => {
-    console.log('called on submit step. StudentUser ', this.studentUser);
-    console.log('parent user is ', this.parentUser);
+    //console.log('called on submit step. StudentUser ', this.studentUser);
+    //console.log('parent user is ', this.parentUser);
     this.props.createUser(this.studentUser, this.props.user.authString);
     this.props.createUser(this.parentUser, this.props.user.authString);
+
+    console.log('avatar is ', this.avatar);
+    let formData = new FormData();
+    formData.append('file', {
+      uri : this.avatar,
+      type: 'image/jpg',
+      name: this.studentUser.username
+    });
+    this.props.uploadImage(formData, this.props.user.authString);
+
+    this.props.uploadBase64Image(this.sign, this.studentUser.username, this.props.user.authString);
+
+    //this.resetAndInitializeWizardValues();
   };
 
   makeUserName = (firstname, lastname, length) => {
@@ -234,6 +264,13 @@ class AddStudentScreen extends Component {
     }
   };
 
+  onAvatarChange = (avatar)  => {
+    this.avatar = avatar;
+  };
+
+  onSignChange = (sign) => {
+    this.sign = sign;
+  };
 
   render() {
     return (
@@ -275,15 +312,27 @@ class AddStudentScreen extends Component {
                                         onStandardChange={(standardId) => this.handleStandardChange(standardId)}
                                         batchLookUp={this.props.student.batchLookUp}/>
           </ProgressStep>
+
           <ProgressStep
-            label="Agreement"
+            label="Photo"
+            onPrevious={this.onPrevStep}
+            onNext={this.onNextStep}
+            errors={this.state.errors}
+            scrollViewProps={this.defaultScrollViewProps}
+          >
+            <Avatar onAvatarChange={this.onAvatarChange}/>
+          </ProgressStep>
+
+          <ProgressStep
+            label="Sign"
             onPrevious={this.onPrevStep}
             onSubmit={this.onSubmitSteps}
             errors={this.state.errors}
             scrollViewProps={this.defaultScrollViewProps}
           >
-              <Text>Confirm order step content</Text>
+              <SignaturePhoto onSignChange={this.onSignChange}/>
           </ProgressStep>
+
         </ProgressSteps>
       </View>
 
@@ -327,7 +376,9 @@ const mapDispatchToProps = {
   getStandard,
   getAllStandardLookUpForStudent,
   getAllBatchOfStandardLookUp,
-  createUser: saveOrUpdateUser
+  createUser: saveOrUpdateUser,
+  uploadImage,
+  uploadBase64Image
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddStudentScreen);

@@ -1,4 +1,4 @@
-import {subjectActionTypes, studentActionTypes, CALL_API} from './actionTypes';
+import {subjectActionTypes, studentActionTypes, imageActionType, CALL_API} from './actionTypes';
 
 export function getAllStudents(branchId= 1, authString) {
   console.log('get all students ', authString);
@@ -81,6 +81,44 @@ export function saveOrUpdateUser(user, authString) {
     payload: { user }
   };
 }
+
+export function uploadImage(formData, authString) {
+  console.log('formdata is ', formData);
+  return {
+    type: imageActionType.API_UPLOAD_AVATAR,
+    apiType: CALL_API,
+    callAPI: {
+      apiPathWithParam: `/admin/users/uploadImage`,
+      options: {
+        method: 'POST',
+        body: formData,
+        contentType: 'multipart/form-data'
+      },
+      payload: {
+        authString
+      }
+    }
+  };
+}
+
+export function uploadBase64Image(imageValue, fileName, authString) {
+  return {
+    type: imageActionType.API_UPLOAD_SIGN,
+    apiType: CALL_API,
+    callAPI: {
+      apiPathWithParam: `/admin/users/uploadBase64Image/${fileName}`,
+      options: {
+        method: 'POST',
+        contentType: 'application/json',
+        body: imageValue
+      },
+      payload: {
+        authString
+      }
+    }
+  };
+}
+
 
 export function updateStudent(user) {
   return {
