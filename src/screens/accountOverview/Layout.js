@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, ScrollView} from 'react-native';
-import {Container, Content, Text, Card, CardItem, Body, Thumbnail, Left} from 'native-base';
+import {Container, Content, Text, Card, CardItem, Body, Thumbnail, Left, Button, Icon, Right} from 'native-base';
 import styles from "./style";
 
 class Layout extends Component {
@@ -27,7 +27,37 @@ class Layout extends Component {
                   </Body>
                 </Left>
               </CardItem>
+
+              <CardItem>
+                <Left><Text>Total Fees</Text></Left>
+                <Right><Text>5000 INR</Text></Right>
+              </CardItem>
+
+              <CardItem>
+                <Left><Text>Fees Due</Text></Left>
+                <Right><Text>2500 INR</Text></Right>
+              </CardItem>
+
+              <CardItem footer bordered>
+                <Left>
+                  <Button transparent>
+                    <Icon active name="ios-call" style={styles.iconSize}/>
+                  </Button>
+                </Left>
+                <Body style={{paddingLeft: 45}}>
+                <Button transparent>
+                  <Icon active name="logo-whatsapp" style={styles.iconSize}/>
+                </Button>
+                </Body>
+                <Right transparent>
+                  <Button transparent>
+                    <Icon active name="ios-text" style={styles.iconSize}/>
+                  </Button>
+                </Right>
+              </CardItem>
+
             </Card>
+
           </ScrollView>
         </Content>
       </Container>
