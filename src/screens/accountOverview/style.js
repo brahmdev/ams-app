@@ -41,8 +41,33 @@ const screenStyle = EStyleSheet.create({
   radioLabels: {
     //paddingLeft: wp('6%'),
   },
-  iconSize: {
-    fontSize: 30
+  icon: {
+    fontSize: 30,
+  },
+  addPaymentButton: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    borderRadius: 4,
+    alignItems: "center",
+    borderColor: "rgba(0, 0, 0, 0.1)",
+  },
+  actionButton: {
+    padding: 8,
+    margin: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+  },
+  addFeesPaymentText: {
+    fontSize: 18,
+    color: "#00ab66"
+  },
+  actionButtonSave: {
+    color: '#3b5998',
+  },
+  actionButtonClose: {
+    color: '#FF3860',
   }
 });
 
