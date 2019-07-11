@@ -28,11 +28,6 @@ class FeesDetailsScreen extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log('in did mount')
-    this.props.getAllStudents(1, this.props.authString);
-  }
-
   static goBack = () => {
     this.props.navigation.goBack();
   };

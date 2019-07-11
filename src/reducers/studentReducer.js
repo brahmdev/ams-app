@@ -53,14 +53,20 @@ export default function (state = initialState, action) {
         standardLookUp
       };
     case studentActionTypes.API_GET_ALL_STUDENTS + apiExecutionState.STARTED:
-      console.log('in started studetn get all');
       return {
         ...state,
         isRequesting: true
       };
     case studentActionTypes.API_GET_ALL_STUDENTS + apiExecutionState.FINISHED:
       const studentList = JSON.parse(action.response);
-      //console.log('studentList ', studentList);
+      for(const student of studentList) {
+        let feesCollections = student.studentDetailses[0].feesCollections;
+
+        feesCollections.sort(function (a, b) {
+          // to get a value that is either negative, positive, or zero.
+          return new Date(b.paymentDate) - new Date(a.paymentDate);
+        });
+      }
       return {
         ...state,
         studentList,
