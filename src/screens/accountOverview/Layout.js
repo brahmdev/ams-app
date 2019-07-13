@@ -20,6 +20,9 @@ class Layout extends Component {
 
   render() {
     const {user} = this.props;
+    const totalFees = user.studentDetailses[0].totalFees;
+    const feesDiscount = user.studentDetailses[0].feesDiscount;
+    const netFees = totalFees - feesDiscount;
     return (
       <Container>
         <Content contentContainerStyle={{ flexGrow: 1 }}>
@@ -43,12 +46,17 @@ class Layout extends Component {
 
                 <CardItem>
                   <Left><Text>Total Fees</Text></Left>
-                  <Right><Text>5000 INR</Text></Right>
+                  <Right><Text>{totalFees} INR</Text></Right>
+                </CardItem>
+
+                <CardItem>
+                  <Left><Text>Fees Discount</Text></Left>
+                  <Right><Text>{feesDiscount} INR</Text></Right>
                 </CardItem>
 
                 <CardItem>
                   <Left><Text>Fees Due</Text></Left>
-                  <Right><Text>2500 INR</Text></Right>
+                  <Right><Text>{netFees} INR</Text></Right>
                 </CardItem>
 
                 <CardItem footer bordered>
@@ -61,7 +69,7 @@ class Layout extends Component {
                   </Right>
                 </CardItem>
               </Card>
-              <AddFeesModal isModalVisible={this.state.isModalVisible} toggleModal={() => this.toggleModal()}/>
+              <AddFeesModal isModalVisible={this.state.isModalVisible} toggleModal={() => this.toggleModal()} onAddFess={this.props.onAddFess} netFees={netFees}/>
             </ScrollView>
 
             <Fab

@@ -3,9 +3,15 @@ import {connect} from 'react-redux';
 import NavigationService from '../../navigation/Navigation-Service';
 import {NavbarTitle, HeaderBackButton, Toast, HeaderButton} from '../../components';
 import {update} from "../../actions/User-Account-Update-Action";
+import {
+  getAllBatchOfStandardLookUp,
+  getAllStandardLookUpForStudent,
+  saveOrUpdateUser, uploadBase64Image, uploadImage
+} from '../../actions/studentActions';
 import {isEmailValid, isPhoneValid, isPasswordStrong, isPasswordMedium} from '../../helpers/General-Helpers';
 import Layout from "./Layout";
 import AccountHeader from "./AccountHeader";
+import {getStandard} from "../../actions/standardActions";
 
 class AccountOverviewScreen extends Component {
 
@@ -33,17 +39,32 @@ class AccountOverviewScreen extends Component {
     };
   }
 
-  async componentDidMount() {
-    //this.props.navigation.setParams({ edit: this._edit });
+  componentDidMount() {
     let { user } = this.props.screenProps;
-    await this.setState({ ...user });
+    this.setState({ ...user });
   }
 
   handleTextChange = (sender, inputValue) => {
     let newState = Object.assign({}, {...this.state});
     newState[sender] = inputValue;
     this.setState(newState);
-  }
+  };
+
+  handleAddFees = async (feesCollection) => {
+    let studentDetailses = this.state.studentDetailses;
+    feesCollection.studentDetails = studentDetailses[0].id;
+    studentDetailses[0].feesCollections.unshift(feesCollection);
+    await this.setState({studentDetailses});
+    this.props.saveOrUpdateUser(this.state, this.props.user.authString);
+    Toast.show({
+      text: "Fees Payment successfully!",
+      duration: 2500,
+      position: "bottom",
+      type: 'success',
+      buttonText: 'Dismiss',
+      textStyle: {textAlign: "center"}
+    });
+  };
 
   _isDataValid = ({username, password, email, name, phone}) => {
     let numberOfErrors = 0;
@@ -87,9 +108,10 @@ class AccountOverviewScreen extends Component {
 
   render() {
     const {isRequesting, screenProps: { user }} = this.props;
+
     return (
       <Layout
-        user={this.state}
+        user={user}
         deleteAccount={this._deleteAccount}
         isSigning={isRequesting}
         onChangeText={this.handleTextChange}
@@ -98,14 +120,20 @@ class AccountOverviewScreen extends Component {
         setPhoneRef={this._setPhoneRef}
         setPasswordRef={this._setPasswordRef}
         setEmailRef={this._setEmailRef}
+        onAddFess={this.handleAddFees}
       />
     );
   }
 }
 
-const mapStateToProps = ({account}) => ({
-  isRequesting: account.isRequesting,
-  selectedUser: account.selectedUser
-})
+function mapStateToProps(state) {
+  const {account : { isRequesting, selectedUser }, user} = state;
+  return {isRequesting, selectedUser, user};
+}
 
-export default connect(mapStateToProps, {update})(AccountOverviewScreen);
+const mapDispatchToProps = {
+  update,
+  saveOrUpdateUser
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountOverviewScreen);

@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
 import {
   Body,
-  Button,
   Card,
   CardItem,
   Content,
-  Header,
   Icon, Input,
   Item,
   Label,
-  Left, Picker,
+  Picker,
   Right,
   Text,
-  Title,
   View
 } from "native-base";
 import Modal from "react-native-modal";
@@ -22,6 +19,50 @@ import styles from "../../screens/accountOverview/style";
 const screen = Dimensions.get("window");
 
 class AddFeesModal extends Component {
+
+  constructor(props) {
+    super();
+    const date = new Date();
+    this.state = {
+      feesTitle: '',
+      amount: '',
+      paymentDate: date.getFullYear() + '-' + date.getMonth().toString().padStart(2, '0') + '-' + date.getDate(),
+      payeeName: '',
+      receiptNumber: '',
+      nextPaymentDate: '',
+      paymentMode: 'Cash',
+      remainingFees: '',
+      netFees: ''
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.netFees && nextProps.netFees !== prevState.netFees) {
+      return ({ netFees: nextProps.netFees })
+    }
+    return null;
+  }
+
+  onValueChange(value) {
+    this.setState({
+      paymentMode: value
+    });
+  };
+
+  onChange = (key, value) => {
+    this.setState({[key]: value});
+    if (key === 'amount') {
+      this.setState({
+        remainingFees: (this.state.netFees - value)
+      })
+    }
+  };
+
+  onFeesAdd = () => {
+    const feesCollection = Object.assign({}, {...this.state});
+    this.props.onAddFess(feesCollection);
+    this.props.toggleModal();
+  };
 
   renderFeesPaymentForm () {
     return (
@@ -33,15 +74,15 @@ class AddFeesModal extends Component {
           <Body>
           <Item floatingLabel>
             <Label>Fees Title</Label>
-            <Input />
+            <Input name="feesTitle" onChangeText={val => this.onChange("feesTitle", val)}/>
           </Item>
           <Item floatingLabel>
             <Label>Amount</Label>
-            <Input />
+            <Input name="amount" keyboardType="numeric" onChangeText={val => this.onChange("amount", val)}/>
           </Item>
           <Item floatingLabel>
             <Label>Payee Name</Label>
-            <Input />
+            <Input name="payeeName" onChangeText={val => this.onChange("payeeName", val)}/>
           </Item>
           <Item>
             <Label>Payment mode</Label>
@@ -52,18 +93,26 @@ class AddFeesModal extends Component {
               style={styles.picker}
               itemTextStyle={styles.itemStyle}
               textStyle={{textAlign: 'center'}}
-              iosIcon={<Icon name="arrow-down" />}
+              iosIcon={<Icon name="arrow-down"
+              onValueChange={this.onValueChange.bind(this)}/>
+              }
             >
               <Picker.Item label="Cash" value="Cash" />
               <Picker.Item label="Online" value="Online" />
               <Picker.Item label="Cheque" value="Cheque" />
             </Picker>
           </Item>
+          {['Online', 'Cheque'].includes(this.state.paymentMode) ?
+            <Item floatingLabel>
+              <Label>Receipt Number</Label>
+              <Input name="receiptNumber" onChangeText={val => this.onChange("receiptNumber", val)}/>
+            </Item>
+          : null}
           </Body>
         </CardItem>
         <CardItem>
           <Right style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-            <TouchableOpacity onPress={() => this.props.toggleModal()}>
+            <TouchableOpacity onPress={() => this.onFeesAdd()}>
               <View style={styles.actionButton}>
                 <Text style={styles.actionButtonSave}>Save</Text>
               </View>

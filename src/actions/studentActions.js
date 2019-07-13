@@ -78,7 +78,7 @@ export function saveOrUpdateUser(user, authString) {
         authString
       }
     },
-    payload: { user }
+    data: { user }
   };
 }
 

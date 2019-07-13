@@ -48,9 +48,7 @@ class PersonalDetailScreen extends Component {
   }
 
   onChange = async (key, value) => {
-    await this.setState({[key]: value}, () => {
-      console.log('value is set now', this.state.email);
-    });
+    await this.setState({[key]: value});
   };
 
   edit = () => {

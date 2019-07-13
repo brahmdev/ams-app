@@ -34,14 +34,14 @@ const FeesITem = ({item, onPressItem}) => {
 
 const renderFeesList = (listProps) => {
   let feesItems = [];
-  listProps.items ? listProps.items.forEach(item => feesItems.push(<FeesITem key={item.id} item={item}
+  listProps.items ? listProps.items.forEach(item => feesItems.push(<FeesITem key={`${item.id}-${item.amount}`} item={item}
                                                            onPressItem={listProps.onItemSelected}/>)) : null;
   return feesItems;
 };
 
 const FeesList = ({listProps}) => {
   return (
-    <Container>
+    <Container  style={{paddingBottom: 100}}>
       <Content>
         <List>
           {renderFeesList(listProps)}

@@ -53,6 +53,7 @@ export default function (state = initialState, action) {
         standardLookUp
       };
     case studentActionTypes.API_GET_ALL_STUDENTS + apiExecutionState.STARTED:
+    case studentActionTypes.API_UPDATE_STUDENT + apiExecutionState.STARTED:
       return {
         ...state,
         isRequesting: true
@@ -64,7 +65,7 @@ export default function (state = initialState, action) {
 
         feesCollections.sort(function (a, b) {
           // to get a value that is either negative, positive, or zero.
-          return new Date(b.paymentDate) - new Date(a.paymentDate);
+          return (b.id - a.id);
         });
       }
       return {
@@ -83,6 +84,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         errorMessage: 'You are not allowed to access this resource',
+        isRequesting: false
+      };
+    case studentActionTypes.API_UPDATE_STUDENT + apiExecutionState.FINISHED:
+      console.log('action API_UPDATE_STUDENT is ', action)
+
+      state.studentDetails = action.data.user.studentDetailses;
+      return {
+        ...state,
         isRequesting: false
       };
     default:

@@ -6,7 +6,8 @@ export function notifyReducersWithSuccess(action, next, text) {
     actionWith(action, {
       type: action.type + apiExecutionState.FINISHED,
       response: text,
-      payload: action.callAPI.payload
+      payload: action.callAPI.payload,
+      data: action.data
     })
   );
 }
