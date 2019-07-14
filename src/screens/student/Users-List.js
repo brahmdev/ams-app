@@ -1,11 +1,11 @@
-import React from 'react';
-import {StyleSheet, TouchableOpacity} from "react-native";
-import {Container, Left, Body, Content, Right, List, ListItem, Text, Thumbnail, Icon} from 'native-base';
+import React, { Component } from 'react';
+import {StyleSheet, ScrollView, TouchableOpacity, RefreshControl} from "react-native";
+import {Container, View, Left, Body, Content, Right, List, ListItem, Text, Thumbnail, Icon, Button} from 'native-base';
 
-const UserItem = ({item, onPressItem}) => {
+const UserItem = ({item, onPressItem, onDeleteItem}) => {
   if (item.username !== '') {
     return (
-      <TouchableOpacity style={styles.touchable} >
+      <TouchableOpacity style={styles.touchable}>
         <ListItem avatar onPress={() => onPressItem(item)}>
           <Left>
             <Thumbnail small
@@ -20,7 +20,11 @@ const UserItem = ({item, onPressItem}) => {
           </Text>
           </Body>
           <Right>
-            <Icon name="ios-arrow-forward"/>
+            <TouchableOpacity style={styles.touchable}>
+              <Button transparent style={{height: 10, marginTop: 10}} onPress={() => onDeleteItem(item.id, item.firstname)}>
+                <Icon name="ios-trash" style={{color: '#FF3860'}}/>
+              </Button>
+            </TouchableOpacity>
           </Right>
         </ListItem>
       </TouchableOpacity>
@@ -31,26 +35,42 @@ const UserItem = ({item, onPressItem}) => {
   }
 };
 
-const renderUsers = (listProps) => {
-  let userItems = [];
-  listProps.items ? listProps.items.forEach(item => userItems.push(<UserItem key={item.username} item={item}
-                                                           onPressItem={listProps.onItemSelected}/>)) : null;
-  return userItems;
-};
+class UsersList extends Component {
 
-const UsersList = ({listProps}) => {
-  return (
-    <Container>
-      <Content>
-        <List>
-          {renderUsers(listProps)}
-        </List>
-      </Content>
-    </Container>
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      refreshing: false,
+    };
+  }
 
+  _onRefresh = () => {
+    console.log('refreshing');
+    this.setState({refreshing: true});
+  };
+
+
+  renderUsers = (listProps) => {
+    let userItems = [];
+    listProps.items ? listProps.items.forEach(item => userItems.push(<UserItem key={item.username} item={item}
+                                                                               onPressItem={listProps.onItemSelected} onDeleteItem={listProps.onDelete}/>)) : null;
+    return userItems;
+  };
+
+  render() {
+    return (
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={this.state.refreshing}
+                          onRefresh={this._onRefresh}
+          />
+        }>
+          <List>
+            {this.renderUsers(this.props.listProps)}
+          </List>
+        </ScrollView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({});
-
 export default UsersList;

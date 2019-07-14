@@ -27,7 +27,7 @@ class Layout extends Component {
       <Container>
         <Content contentContainerStyle={{ flexGrow: 1 }}>
             <ScrollView>
-              <Card containerStyle={{backgroundColor: '#45CB85'}}>
+              <Card>
                 <CardItem>
                   <Left>
                     <Thumbnail large
@@ -46,7 +46,7 @@ class Layout extends Component {
 
                 <CardItem>
                   <Left><Text>Total Fees</Text></Left>
-                  <Right><Text>{totalFees} INR</Text></Right>
+                  <Right><Text style={styles.totalFees}>+ {totalFees} INR</Text></Right>
                 </CardItem>
 
                 <CardItem>
@@ -56,7 +56,7 @@ class Layout extends Component {
 
                 <CardItem>
                   <Left><Text>Fees Due</Text></Left>
-                  <Right><Text>{netFees} INR</Text></Right>
+                  <Right><Text style={styles.remainingFees}>- {netFees} INR</Text></Right>
                 </CardItem>
 
                 <CardItem footer bordered>

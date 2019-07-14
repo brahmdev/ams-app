@@ -61,13 +61,19 @@ const screenStyle = EStyleSheet.create({
   },
   addFeesPaymentText: {
     fontSize: 18,
-    color: "#00ab66"
+    color: "#66cc00"
   },
   actionButtonSave: {
     color: '#3b5998',
   },
   actionButtonClose: {
     color: '#FF3860',
+  },
+  totalFees: {
+    color: '#66cc00'
+  },
+  remainingFees: {
+    color: '#FF3860'
   }
 });
 

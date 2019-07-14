@@ -1,6 +1,6 @@
 import {CALL_API, userActionTypes} from '../actions/actionTypes';
 import {getAMSUser} from '../utils/userInfo';
-import {actionWith} from '../utils/index';
+import {actionWith, SERVER_BASE_PATH} from '../utils/index';
 import {apiExecutionState} from "../actions/actionTypes";
 import {AsyncStorage} from 'react-native';
 import {
@@ -33,13 +33,13 @@ export default (store) => (next) => (action) => {
 };
 
 async function makeRequest(store, action, next) {
-  const TEST_SERVER_BASE_PATH = 'http://192.168.10.180:8080/api/v1';
+  const API_BASE_PATH = '/api/v1';
   const {
     callAPI: {apiPathWithParam, options, payload}
   } = action;
 
 
-  const url = TEST_SERVER_BASE_PATH + apiPathWithParam;
+  const url = SERVER_BASE_PATH + ':8080' + API_BASE_PATH + apiPathWithParam;
   const headers = new Headers();
 
   // authString = getAMSUser();

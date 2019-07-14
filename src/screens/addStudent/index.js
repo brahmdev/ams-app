@@ -13,6 +13,7 @@ import { getStandard } from "../../actions/standardActions";
 import AddAcademics from "../../components/Student/AddAcademics";
 import SignaturePhoto from "../../components/Student/SignaturePhoto";
 import Avatar from "../../components/Student/Avatar";
+import {SERVER_BASE_PATH} from "../../utils";
 
 class AddStudentScreen extends Component {
 
@@ -66,7 +67,8 @@ class AddStudentScreen extends Component {
     'rollNo',
     'admissionDate',
     'standard',
-    'batch'
+    'batch',
+    'totalFees'
   ];
 
   studentUser = '';
@@ -183,10 +185,12 @@ class AddStudentScreen extends Component {
   onSubmitSteps = () => {
     //console.log('called on submit step. StudentUser ', this.studentUser);
     //console.log('parent user is ', this.parentUser);
+    this.studentUser.avatar = SERVER_BASE_PATH + '/images/ams/avatar/' + this.studentUser.username +'.jpg';
+    this.studentUser.signature = SERVER_BASE_PATH + '/images/ams/signature/' + this.studentUser.username +'.jpg';
+
     this.props.createUser(this.studentUser, this.props.user.authString);
     this.props.createUser(this.parentUser, this.props.user.authString);
 
-    console.log('avatar is ', this.avatar);
     let formData = new FormData();
     formData.append('file', {
       uri : this.avatar,
@@ -197,7 +201,7 @@ class AddStudentScreen extends Component {
 
     this.props.uploadBase64Image(this.sign, this.studentUser.username, this.props.user.authString);
 
-    //this.resetAndInitializeWizardValues();
+    this.resetAndInitializeWizardValues();
   };
 
   makeUserName = (firstname, lastname, length) => {

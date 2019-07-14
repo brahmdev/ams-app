@@ -136,17 +136,20 @@ export function updateStudent(user) {
   };
 }
 
-export function deleteStudent(subjectId) {
+export function deleteStudent(studentId, authString) {
   return {
-    type: subjectActionTypes.API_DELETE_SUBJECT,
+    type: studentActionTypes.API_DELETE_STUDENT,
     apiType: CALL_API,
     callAPI: {
-      apiPathWithParam: `/admin/student/${subjectId}`,
+      apiPathWithParam: `/admin/users/${studentId}`,
       options: {
         method: 'DELETE',
         contentType: 'application/json'
       },
+      payload: {
+        authString
+      }
     },
-    payload: subjectId
+    data: studentId
   };
 }

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Toast, NavbarTitle} from '../../components';
-import {getAllStudents} from "../../actions/studentActions";
+import { Alert, ScrollView, RefreshControl } from 'react-native';
+import {getAllStudents, deleteStudent} from "../../actions/studentActions";
 import {getUserInfo} from "../../actions/User-Information-Action";
 import NavigationService from "../../navigation/Navigation-Service";
 import Layout from "./Layout";
-import {View, Text, Header, Container, Left, Button, Icon, Body, Title, Right} from "native-base";
+import {View, Text} from "native-base";
 import Loading from "../../components/Loading";
 import StudentHeader from "./StudentHeader";
 class StudentScreen extends Component {
@@ -40,7 +40,10 @@ class StudentScreen extends Component {
     NavigationService.navigate("Edit", {user: user, onGoBack: () => this.listRefresh()});
   };
 
-  listRefresh = () => this.setState({refreshing: true, page: 1, items: []}, () => this._load());
+  listRefresh = () => {
+    this.props.getAllStudents(1, this.props.authString);
+  };
+
   listLoadMore = () => {
     if (this.state.noMoreRecords) return;
     this.setState({page: this.state.page + 1}, () => this._load());
@@ -52,6 +55,23 @@ class StudentScreen extends Component {
     return <FooterComponent/>
   };
 
+  onStudentDelete = (studentId, firstname) => {
+    console.log('student to be deleted is ', studentId);
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure want to delete ' + firstname + '?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Delete of ' + firstname + ' cancelled'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => this.props.deleteStudent(studentId, this.props.authString)},
+      ],
+      {cancelable: false},
+    );
+  };
+
   renderContent() {
     const { studentList, errorMessage, isRequesting} = this.props;
     const {isLoading, refreshing} = this.state;
@@ -61,10 +81,11 @@ class StudentScreen extends Component {
       items,
       refreshing,
       isLoading,
-      //handleRefresh: this.listRefresh,
-      //handleLoadMore: this.listLoadMore,
+      handleRefresh: this.listRefresh,
+      handleLoadMore: this.listLoadMore,
       onItemSelected: this.onItemSelected,
-      renderFooter: this.renderFooter
+      renderFooter: this.renderFooter,
+      onDelete: this.onStudentDelete
     };
     if (isRequesting) {
       return <Loading/>;
@@ -94,6 +115,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   getUserInfo,
   getAllStudents,
+  deleteStudent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentScreen);

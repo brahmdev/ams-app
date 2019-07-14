@@ -54,18 +54,19 @@ export default function (state = initialState, action) {
       };
     case studentActionTypes.API_GET_ALL_STUDENTS + apiExecutionState.STARTED:
     case studentActionTypes.API_UPDATE_STUDENT + apiExecutionState.STARTED:
+    case studentActionTypes.API_DELETE_STUDENT + apiExecutionState.STARTED:
       return {
         ...state,
         isRequesting: true
       };
     case studentActionTypes.API_GET_ALL_STUDENTS + apiExecutionState.FINISHED:
-      const studentList = JSON.parse(action.response);
+      let studentList = JSON.parse(action.response);
       for(const student of studentList) {
         let feesCollections = student.studentDetailses[0].feesCollections;
 
         feesCollections.sort(function (a, b) {
           // to get a value that is either negative, positive, or zero.
-          return (b.id - a.id);
+          return b.id - a.id;
         });
       }
       return {
@@ -87,11 +88,22 @@ export default function (state = initialState, action) {
         isRequesting: false
       };
     case studentActionTypes.API_UPDATE_STUDENT + apiExecutionState.FINISHED:
-      console.log('action API_UPDATE_STUDENT is ', action)
-
       state.studentDetails = action.data.user.studentDetailses;
       return {
         ...state,
+        isRequesting: false
+      };
+    case studentActionTypes.API_DELETE_STUDENT + apiExecutionState.FINISHED:
+      console.log('student to be removed from state is ', action.data);
+      studentList = state.studentList;
+      for (let index = 0; index < studentList.length; index++) {
+        if (action.data === studentList[index].id) {
+          studentList.splice(index, 1);
+        }
+      }
+      return {
+        ...state,
+        studentList,
         isRequesting: false
       };
     default:

@@ -1,19 +1,19 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from "react-native";
+import {StyleSheet, TouchableOpacity, ScrollView} from "react-native";
 import {Container, Left, Body, Content, Right, List, ListItem, Text, Thumbnail, Icon} from 'native-base';
 
 const FeesITem = ({item, onPressItem}) => {
-  if (item.username !== '') {
+  if (item.amount !== '') {
     return (
-      <TouchableOpacity style={styles.touchable} >
+      <TouchableOpacity style={styles.touchable}>
         <ListItem avatar onPress={() => onPressItem(item)}>
           <Body>
-            <Text small>
-              {`${item.feesTitle}`}
-            </Text>
-            <Text note small>
-              {`${item.paymentDate}`}
-            </Text>
+          <Text small>
+            {`${item.feesTitle}`}
+          </Text>
+          <Text note small>
+            {`${item.paymentDate}`}
+          </Text>
           </Body>
           <Right>
             <Text small style={styles.paidFees}>
@@ -34,20 +34,19 @@ const FeesITem = ({item, onPressItem}) => {
 
 const renderFeesList = (listProps) => {
   let feesItems = [];
-  listProps.items ? listProps.items.forEach(item => feesItems.push(<FeesITem key={`${item.id}-${item.amount}`} item={item}
-                                                           onPressItem={listProps.onItemSelected}/>)) : null;
+  listProps.items ? listProps.items.forEach(item => feesItems.push(<FeesITem key={`${item.id}-${item.amount}`}
+                                                                             item={item}
+                                                                             onPressItem={listProps.onItemSelected}/>)) : null;
   return feesItems;
 };
 
 const FeesList = ({listProps}) => {
   return (
-    <Container  style={{paddingBottom: 100}}>
-      <Content>
-        <List>
-          {renderFeesList(listProps)}
-        </List>
-      </Content>
-    </Container>
+    <ScrollView>
+      <List>
+        {renderFeesList(listProps)}
+      </List>
+    </ScrollView>
   );
 };
 
