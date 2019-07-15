@@ -24,6 +24,7 @@ class ProgressStep extends Component {
 
   onSubmit = () => {
     this.props.onSubmit && this.props.onSubmit();
+    this.props.setActiveStep(0);
   };
 
   renderNextButton = () => {

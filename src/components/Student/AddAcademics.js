@@ -107,7 +107,7 @@ class AddAcademics extends Component {
                 </Item>
                 <Item floatingLabel>
                   <Label>Total Discount</Label>
-                  <Input value={values['totalDiscount'] ? values['totalDiscount'] : ''} name="totalDiscount" onChangeText={val => onChange("totalDiscount", val)}/>
+                  <Input value={values['feesDiscount'] ? values['feesDiscount'] : ''} name="feesDiscount" onChangeText={val => onChange("feesDiscount", val)}/>
                 </Item>
               </Form>
             </ScrollView>

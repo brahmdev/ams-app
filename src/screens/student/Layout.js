@@ -1,13 +1,15 @@
-import React from 'react';
-import { View } from "react-native";
-import { Container, Content } from "native-base";
+import React, {Component} from 'react';
+import {Container, Content} from "native-base";
 import UsersList from "./Users-List";
 
-const Layout = ({ listProps }) =>
-    <Container>
-        <Content noPadding>
-            <UsersList listProps={listProps} />
-        </Content>
-    </Container>
+class Layout extends Component {
+
+  render() {
+    const {listProps, isRequesting} = this.props;
+    return (
+      <UsersList listProps={listProps} isRequesting={isRequesting}/>
+    );
+  }
+}
 
 export default Layout;

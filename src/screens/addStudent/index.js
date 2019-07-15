@@ -3,12 +3,17 @@ import {connect} from 'react-redux';
 import { View, Text } from 'native-base';
 import NavigationService from "../../navigation/Navigation-Service";
 import AddStudentHeader from "./AddStudentHeader";
-import Stepper from 'react-native-js-stepper'
 import { StyleSheet } from 'react-native'
 import { ProgressSteps, ProgressStep } from '../../components/ProgressSteps';
 import AddStudent from "../../components/Student/AddStudent";
 import AddParent from "../../components/Student/AddParent";
-import { getAllStandardLookUpForStudent, getAllBatchOfStandardLookUp, saveOrUpdateUser, uploadImage, uploadBase64Image } from "../../actions/studentActions";
+import {
+  getAllStandardLookUpForStudent,
+  getAllBatchOfStandardLookUp,
+  saveOrUpdateUser,
+  uploadImage,
+  uploadBase64Image
+} from "../../actions/studentActions";
 import { getStandard } from "../../actions/standardActions";
 import AddAcademics from "../../components/Student/AddAcademics";
 import SignaturePhoto from "../../components/Student/SignaturePhoto";
@@ -183,8 +188,6 @@ class AddStudentScreen extends Component {
   };
 
   onSubmitSteps = () => {
-    //console.log('called on submit step. StudentUser ', this.studentUser);
-    //console.log('parent user is ', this.parentUser);
     this.studentUser.avatar = SERVER_BASE_PATH + '/images/ams/avatar/' + this.studentUser.username +'.jpg';
     this.studentUser.signature = SERVER_BASE_PATH + '/images/ams/signature/' + this.studentUser.username +'.jpg';
 

@@ -39,7 +39,7 @@ async function makeRequest(store, action, next) {
   } = action;
 
 
-  const url = SERVER_BASE_PATH + ':8080' + API_BASE_PATH + apiPathWithParam;
+  const url = SERVER_BASE_PATH + API_BASE_PATH + apiPathWithParam;
   const headers = new Headers();
 
   // authString = getAMSUser();
