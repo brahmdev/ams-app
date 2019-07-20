@@ -9,6 +9,7 @@ import FeesDetailsScreen from '../screens/feesDetails';
 import SettingScreen from '../screens/setting';
 
 import {defaultNavigationOptions} from '../constants/Styles';
+import Colors from "../constants/Colors";
 
 const withUserParams = (WrappedComponent) => {
   return class extends React.Component {
@@ -34,6 +35,10 @@ export default createBottomTabNavigator({
     screen: withUserParams(AccountOverviewStack),
     navigationOptions: () => ({
       tabBarLabel: 'Overview',
+      tabBarOptions: {
+        activeTintColor: Colors.tintColor,
+        inactiveTintColor: Colors.tabIconDefault,
+      },
       tabBarIcon: ({focused}) => (
         <TabBarIcon
           focused={focused}
@@ -50,6 +55,10 @@ export default createBottomTabNavigator({
     screen: withUserParams(PersonalDetailStack),
     navigationOptions: () => ({
       tabBarLabel: 'Personal Details',
+      tabBarOptions: {
+        activeTintColor: Colors.tintColor,
+        inactiveTintColor: Colors.tabIconDefault,
+      },
       tabBarIcon: ({focused}) => (
         <TabBarIcon
           focused={focused}
@@ -66,6 +75,10 @@ export default createBottomTabNavigator({
     screen: withUserParams(FeesDetailStack),
     navigationOptions: () => ({
       tabBarLabel: 'Fees Details',
+      tabBarOptions: {
+        activeTintColor: Colors.tintColor,
+        inactiveTintColor: Colors.tabIconDefault,
+      },
       tabBarIcon: ({focused}) => (
         <TabBarIcon
           focused={focused}

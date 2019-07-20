@@ -9,11 +9,16 @@ import AccountScreen from '../screens/account';
 import AddStudentScreen from '../screens/addStudent';
 
 import { defaultNavigationOptions } from '../constants/Styles';
+import Colors from "../constants/Colors";
 
 const HomeStack = createStackNavigator({ HomeScreen }, { defaultNavigationOptions });
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
+  tabBarOptions: {
+    activeTintColor: Colors.tintColor,
+    inactiveTintColor: Colors.tabIconDefault,
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -30,6 +35,10 @@ const StudentStack = createStackNavigator({ StudentScreen }, { defaultNavigation
 
 StudentStack.navigationOptions = {
   tabBarLabel: 'Student List',
+  tabBarOptions: {
+    activeTintColor: Colors.tintColor,
+    inactiveTintColor: Colors.tabIconDefault,
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -46,6 +55,10 @@ const AddStudentStack = createStackNavigator({ AddStudentScreen }, { defaultNavi
 
 AddStudentStack.navigationOptions = {
   tabBarLabel: 'Add Student',
+  tabBarOptions: {
+    activeTintColor: Colors.tintColor,
+    inactiveTintColor: Colors.tabIconDefault,
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -62,6 +75,10 @@ const AccountStack = createStackNavigator({ AccountScreen }, { defaultNavigation
 
 AccountStack.navigationOptions = {
   tabBarLabel: 'Profile',
+  tabBarOptions: {
+    activeTintColor: Colors.tintColor,
+    inactiveTintColor: Colors.tabIconDefault,
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

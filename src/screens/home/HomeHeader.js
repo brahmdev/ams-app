@@ -13,11 +13,6 @@ export default class HomeHeader extends Component {
           <Body>
           <Title>Home</Title>
           </Body>
-          <Right>
-            <Button transparent>
-              <Icon name='search'/>
-            </Button>
-          </Right>
         </Header>
       </View>
     );
