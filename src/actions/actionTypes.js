@@ -1,4 +1,5 @@
 export const CALL_API= 'CALL_API';
+export const UPDATE_STORE = 'UPDATE_STORE';
 
 export const apiExecutionState = {
   STARTED: '_STARTED',
@@ -69,7 +70,8 @@ export const studentActionTypes = {
   API_DELETE_STUDENT: 'API_DELETE_STUDENT',
   API_UPDATE_STUDENT: 'API_UPDATE_STUDENT',
   API_GET_ALL_STUDENTS: 'API_GET_ALL_STUDENTS',
-  API_GET_PARENT: 'API_GET_PARENT'
+  API_GET_PARENT: 'API_GET_PARENT',
+  STORE_UPDATE_SELECTED_USER: 'STORE_UPDATE_SELECTED_USER'
 };
 
 export const imageActionType = {

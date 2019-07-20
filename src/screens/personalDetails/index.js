@@ -84,7 +84,7 @@ class PersonalDetailScreen extends Component {
 
 function mapStateToProps(state) {
   const {isLoggedIn, authorities, loginError, loginErrorMessage, authString} = state.user;
-  const { studentList, errorMessage, isRequesting } = state.student;
+  const { studentList, errorMessage, isRequesting } = state.userData;
   return {isLoggedIn, authorities, loginError, isRequesting, loginErrorMessage, authString, studentList, errorMessage};
 }
 

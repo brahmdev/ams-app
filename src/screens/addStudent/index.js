@@ -315,9 +315,9 @@ class AddStudentScreen extends Component {
             <AddAcademics onChange={this.onChangeStudentAcademicDetailsFormField}
                                         errors={this.state.studentAcademicDetailsErrors}
                                         values={this.studentAcademicDetailsFieldsValue}
-                                        standardLookUp={this.props.student.standardLookUp}
+                                        standardLookUp={this.props.userData.standardLookUp}
                                         onStandardChange={(standardId) => this.handleStandardChange(standardId)}
-                                        batchLookUp={this.props.student.batchLookUp}/>
+                                        batchLookUp={this.props.userData.batchLookUp}/>
           </ProgressStep>
 
           <ProgressStep
@@ -375,8 +375,8 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  const {subject, standard, student, user} = state;
-  return {standard, subject, student, user};
+  const {subject, standard, userData, user} = state;
+  return {standard, subject, userData, user};
 }
 
 const mapDispatchToProps = {

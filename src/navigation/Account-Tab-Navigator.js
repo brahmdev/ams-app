@@ -18,7 +18,7 @@ const withUserParams = (WrappedComponent) => {
       const {navigation} = this.props;
       const {user, onGoBack} = navigation.state.params;
       const screenProps = {user, onGoBack};
-
+      //console.log('user in navigator ', screenProps.user);
       return <WrappedComponent navigation={navigation} screenProps={screenProps}/>;
     }
   }
@@ -39,7 +39,7 @@ export default createBottomTabNavigator({
           focused={focused}
           name={
             Platform.OS === 'ios'
-              ? `ios-apps${focused ? '' : '-outline'}`
+              ? `ios-apps`
               : 'md-apps'
           }
         />
@@ -55,7 +55,7 @@ export default createBottomTabNavigator({
           focused={focused}
           name={
             Platform.OS === 'ios'
-              ? `ios-person${focused ? '' : '-outline'}`
+              ? `ios-person`
               : 'md-person'
           }
         />
@@ -71,7 +71,7 @@ export default createBottomTabNavigator({
           focused={focused}
           name={
             Platform.OS === 'ios'
-              ? `ios-cash${focused ? '' : '-outline'}`
+              ? `ios-cash`
               : 'md-cash'
           }
         />

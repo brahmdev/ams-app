@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, TouchableOpacity, ScrollView} from "react-native";
 import {Container, Left, Body, Content, Right, List, ListItem, Text, Thumbnail, Icon} from 'native-base';
 
@@ -32,24 +32,28 @@ const FeesITem = ({item, onPressItem}) => {
   }
 };
 
-const renderFeesList = (listProps) => {
-  let feesItems = [];
-  listProps.items ? listProps.items.forEach(item => feesItems.push(<FeesITem key={`${item.id}-${item.amount}`}
-                                                                             item={item}
-                                                                             onPressItem={listProps.onItemSelected}/>)) : null;
-  return feesItems;
-};
 
-const FeesList = ({listProps}) => {
-  return (
-    <ScrollView>
-      <List>
-        {renderFeesList(listProps)}
-      </List>
-    </ScrollView>
-  );
-};
+class FeesList extends Component {
 
+
+  renderFeesList = (listProps) => {
+    let feesItems = [];
+    listProps.items ? listProps.items.forEach(item => feesItems.push(<FeesITem key={`${item.id}-${item.amount}`}
+                                                                               item={item}
+                                                                               onPressItem={listProps.onItemSelected}/>)) : null;
+    return feesItems;
+  };
+
+  render() {
+    return (
+      <ScrollView>
+        <List>
+          {this.renderFeesList(this.props.listProps)}
+        </List>
+      </ScrollView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   paidFees: {

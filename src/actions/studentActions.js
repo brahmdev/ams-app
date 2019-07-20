@@ -1,4 +1,4 @@
-import {subjectActionTypes, studentActionTypes, imageActionType, CALL_API} from './actionTypes';
+import {subjectActionTypes, studentActionTypes, imageActionType, CALL_API, UPDATE_STORE} from './actionTypes';
 
 export function getAllStudents(branchId= 1, authString) {
   console.log('get all students ', authString);
@@ -16,7 +16,6 @@ export function getAllStudents(branchId= 1, authString) {
     },
   };
 }
-
 
 export function getParentDetails(studentUserName) {
   return {
@@ -119,23 +118,6 @@ export function uploadBase64Image(imageValue, fileName, authString) {
   };
 }
 
-
-export function updateStudent(user) {
-  return {
-    type: subjectActionTypes.API_UPDATE_SUBJECT,
-    apiType: CALL_API,
-    callAPI: {
-      apiPathWithParam: `/admin/student/`,
-      options: {
-        method: 'POST',
-        contentType: 'application/json',
-        body: JSON.stringify(user)
-      },
-    },
-    payload: user
-  };
-}
-
 export function deleteStudent(studentId, authString) {
   return {
     type: studentActionTypes.API_DELETE_STUDENT,
@@ -151,5 +133,13 @@ export function deleteStudent(studentId, authString) {
       }
     },
     data: studentId
+  };
+}
+
+export function updateStudentDataInStore(user) {
+  return {
+    type: studentActionTypes.STORE_UPDATE_SELECTED_USER,
+    apiType: UPDATE_STORE,
+    data: user
   };
 }

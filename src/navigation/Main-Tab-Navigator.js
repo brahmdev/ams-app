@@ -19,7 +19,7 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-home-circle${focused ? '' : '-outline'}`
+          ? `ios-home`
           : 'md-home'
       }
     />
@@ -35,7 +35,7 @@ StudentStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-list-${focused ? '' : '-outline'}`
+          ? `ios-list`
           : 'md-list'
       }
     />
@@ -51,7 +51,7 @@ AddStudentStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-add-${focused ? '' : '-outline'}`
+          ? `ios-add`
           : 'md-add'
       }
     />
@@ -67,7 +67,7 @@ AccountStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-contact${focused ? '' : '-outline'}`
+          ? `ios-contact`
           : 'md-contact'
       }
     />

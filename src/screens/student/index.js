@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { Alert, ScrollView, RefreshControl } from 'react-native';
-import {getAllStudents, deleteStudent} from "../../actions/studentActions";
+import {getAllStudents, deleteStudent, updateStudentDataInStore} from "../../actions/studentActions";
 import {getUserInfo} from "../../actions/User-Information-Action";
 import NavigationService from "../../navigation/Navigation-Service";
 import Layout from "./Layout";
@@ -32,11 +32,19 @@ class StudentScreen extends Component {
     this.props.getAllStudents(1, this.props.authString);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.studentList.length > 0) {
+      return ({items: nextProps.studentList});
+    }
+    return null;
+  };
+
   static goBack = () => {
     this.props.navigation.goBack();
   };
 
   onItemSelected = (user) => {
+    this.props.updateStudentDataInStore(user);
     NavigationService.navigate("Edit", {user: user, onGoBack: () => this.listRefresh()});
   };
 
@@ -56,7 +64,7 @@ class StudentScreen extends Component {
   };
 
   onStudentDelete = (studentId, firstname) => {
-    console.log('student to be deleted is ', studentId);
+    console.log('userData to be deleted is ', studentId);
     Alert.alert(
       'Confirm Delete',
       'Are you sure want to delete ' + firstname + '?',
@@ -108,14 +116,15 @@ class StudentScreen extends Component {
 
 function mapStateToProps(state) {
   const {isLoggedIn, authorities, loginError, loginErrorMessage, authString} = state.user;
-  const { studentList, errorMessage, isRequesting } = state.student;
+  const { studentList, errorMessage, isRequesting } = state.userData;
   return {isLoggedIn, authorities, loginError, isRequesting, loginErrorMessage, authString, studentList, errorMessage};
 }
 
 const mapDispatchToProps = {
   getUserInfo,
   getAllStudents,
-  deleteStudent
+  deleteStudent,
+  updateStudentDataInStore
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentScreen);

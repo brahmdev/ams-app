@@ -25,7 +25,7 @@ const initialState = {
   updated: '',
   studentList: [],
   parentDetails: '',
-  studentDetails: '',
+  studentDetailses: '',
   standardLookUp: {},
   batchLookUp: {},
   errorMessage: '',
@@ -63,7 +63,7 @@ export default function (state = initialState, action) {
       let studentList = JSON.parse(action.response);
       for(const student of studentList) {
         let feesCollections = student.studentDetailses[0].feesCollections;
-
+        console.log('fess collections in reducer ', feesCollections);
         feesCollections.sort(function (a, b) {
           // to get a value that is either negative, positive, or zero.
           return b.id - a.id;
@@ -81,20 +81,22 @@ export default function (state = initialState, action) {
         ...state,
         parentDetails
       };
-    case studentActionTypes.API_GET_ALL_STUDENTS + apiExecutionState.ERROR:
-      return {
-        ...state,
-        errorMessage: 'You are not allowed to access this resource',
-        isRequesting: false
-      };
     case studentActionTypes.API_UPDATE_STUDENT + apiExecutionState.FINISHED:
-      state.studentDetails = action.data.user.studentDetailses;
+      const updatedResponse = JSON.parse(action.response);
+      state.studentDetailses = updatedResponse.studentDetailses;
+      console.log('fees collection from data ', state.studentDetailses[0].feesCollections);
+      studentList = state.studentList;
+      for (let index = 0; index < studentList.length; index++) {
+        if (updatedResponse.id === studentList[index].id) {
+          studentList[index] = updatedResponse;
+        }
+      }
       return {
         ...state,
+        studentList,
         isRequesting: false
       };
     case studentActionTypes.API_DELETE_STUDENT + apiExecutionState.FINISHED:
-      console.log('student to be removed from state is ', action.data);
       studentList = state.studentList;
       for (let index = 0; index < studentList.length; index++) {
         if (action.data === studentList[index].id) {
@@ -104,6 +106,20 @@ export default function (state = initialState, action) {
       return {
         ...state,
         studentList,
+        isRequesting: false
+      };
+    case studentActionTypes.STORE_UPDATE_SELECTED_USER:
+      let user = action.data;
+      state = Object.assign(state, user);
+      return {
+        ...state,
+        errorMessage: '',
+        isRequesting: false
+      };
+    case studentActionTypes.API_GET_ALL_STUDENTS + apiExecutionState.ERROR:
+      return {
+        ...state,
+        errorMessage: 'You are not allowed to access this resource',
         isRequesting: false
       };
     default:

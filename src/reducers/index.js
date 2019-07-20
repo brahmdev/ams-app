@@ -21,7 +21,7 @@ const allReducers = combineReducers(
     subject: SubjectReducer,
     chapter: ChapterReducer,
     batch: BatchReducer,
-    student: StudentReducer
+    userData: StudentReducer
   });
 
 const rootReducer = (state, action) => allReducers(state, action);

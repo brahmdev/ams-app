@@ -49,7 +49,7 @@ class FeesDetailsScreen extends Component {
   };
 
   renderContent() {
-    const { screenProps: { user }, errorMessage, isRequesting} = this.props;
+    const { screenProps: { user }, studentDetailses, errorMessage, isRequesting} = this.props;
     const {isLoading, refreshing} = this.state;
     const items = user.studentDetailses[0].feesCollections;
 
@@ -83,7 +83,7 @@ class FeesDetailsScreen extends Component {
 
 function mapStateToProps(state) {
   const {isLoggedIn, authorities, loginError, loginErrorMessage, authString} = state.user;
-  const { studentList, errorMessage, isRequesting } = state.student;
+  const { studentList, studentDetailses, errorMessage, isRequesting } = state.userData;
   return {isLoggedIn, authorities, loginError, isRequesting, loginErrorMessage, authString, studentList, errorMessage};
 }
 

@@ -22,11 +22,9 @@ class AddFeesModal extends Component {
 
   constructor(props) {
     super();
-    const date = new Date();
     this.state = {
       feesTitle: '',
       amount: '',
-      paymentDate: date.getFullYear() + '-' + date.getMonth().toString().padStart(2, '0') + '-' + date.getDate(),
       payeeName: '',
       receiptNumber: '',
       nextPaymentDate: '',
@@ -60,6 +58,7 @@ class AddFeesModal extends Component {
 
   onFeesAdd = () => {
     const feesCollection = Object.assign({}, {...this.state});
+    feesCollection.paymentDate = new Date();
     this.props.onAddFess(feesCollection);
     this.props.toggleModal();
   };
