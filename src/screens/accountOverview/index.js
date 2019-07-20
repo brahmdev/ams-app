@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import NavigationService from '../../navigation/Navigation-Service';
 import {update} from "../../actions/User-Account-Update-Action";
-import {  saveOrUpdateUser } from '../../actions/studentActions';
+import {saveOrUpdateUser, updateFeesCollectionInStore} from '../../actions/studentActions';
 import {isEmailValid, isPhoneValid, isPasswordStrong, isPasswordMedium} from '../../helpers/General-Helpers';
 import Layout from "./Layout";
 import AccountHeader from "./AccountHeader";
@@ -15,7 +15,7 @@ class AccountOverviewScreen extends Component {
     return {
       headerTitle: <AccountHeader goBack={() => NavigationService.goBack()}/>,
     };
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -35,12 +35,21 @@ class AccountOverviewScreen extends Component {
   }
 
   componentDidMount() {
-    this.setState({ ...this.props.userData });
+    let selectedUserData = '';
+    if (this.props && this.props.userData && this.props.userData !== null) {
+      selectedUserData = Object.assign(selectedUserData, this.props.userData);
+      delete selectedUserData.studentList;
+    }
+    this.setState({...selectedUserData});
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    //console.log('nextProps studentDetailses ', nextProps.studentDetailses)
-    return ({...nextProps.userData});
+    let selectedUserData = '';
+    if (this.props && this.props.userData && this.props.userData !== null) {
+      selectedUserData = Object.assign(selectedUserData, this.props.userData);
+      delete selectedUserData.studentList;
+    }
+    return ({...selectedUserData});
   };
 
   handleTextChange = (sender, inputValue) => {
@@ -53,9 +62,11 @@ class AccountOverviewScreen extends Component {
     let studentDetailses = this.state.studentDetailses;
     feesCollection.studentDetails = studentDetailses[0].id;
     studentDetailses[0].feesCollections.unshift(feesCollection);
+    studentDetailses[0].paidFees = parseInt(this.state.studentDetailses[0].paidFees) + parseInt(feesCollection.amount);
     await this.setState({studentDetailses});
-
+    console.log('stuentdetails in add fees ', this.state.studentDetailses);
     this.props.saveOrUpdateUser(this.state, this.props.user.authString);
+    //this.props.updateFeesCollectionInStore(feesCollection);
     Toast.show({
       text: "Fees Payment added successfully!",
       duration: 2500,
@@ -108,7 +119,7 @@ class AccountOverviewScreen extends Component {
 
   render() {
     const {isRequesting, userData} = this.props;
-
+    console.log('userdata ', userData.firstname, ' : ', userData.paidFees);
     return (
       <Layout
         user={userData}
@@ -127,13 +138,14 @@ class AccountOverviewScreen extends Component {
 }
 
 function mapStateToProps(state) {
-  const {account : { isRequesting, selectedUser }, user, userData} = state;
+  const {account: {isRequesting, selectedUser}, user, userData} = state;
   return {isRequesting, selectedUser, user, userData};
 }
 
 const mapDispatchToProps = {
   update,
-  saveOrUpdateUser
+  saveOrUpdateUser,
+  updateFeesCollectionInStore
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountOverviewScreen);

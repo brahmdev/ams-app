@@ -14,7 +14,6 @@ class Layout extends Component {
     };
   };
   toggleModal = () => {
-    console.log('toggling')
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
@@ -23,6 +22,8 @@ class Layout extends Component {
     const totalFees = user.studentDetailses[0].totalFees;
     const feesDiscount = user.studentDetailses[0].feesDiscount;
     const netFees = totalFees - feesDiscount;
+    const paidFees = user.studentDetailses[0].paidFees;
+    const feesDues = netFees- paidFees;
     return (
       <Container>
         <Content contentContainerStyle={{ flexGrow: 1 }}>
@@ -49,14 +50,24 @@ class Layout extends Component {
                   <Right><Text style={styles.totalFees}>+ {totalFees} INR</Text></Right>
                 </CardItem>
 
-                <CardItem>
+                <CardItem bordered>
                   <Left><Text>Fees Discount</Text></Left>
                   <Right><Text>{feesDiscount} INR</Text></Right>
                 </CardItem>
 
+                <CardItem bordered>
+                  <Left><Text>Net Fees</Text></Left>
+                  <Right><Text>{netFees} INR</Text></Right>
+                </CardItem>
+
+                <CardItem>
+                  <Left><Text>Paid Fees</Text></Left>
+                  <Right><Text style={styles.totalFees}>+ {paidFees} INR</Text></Right>
+                </CardItem>
+
                 <CardItem>
                   <Left><Text>Fees Due</Text></Left>
-                  <Right><Text style={styles.remainingFees}>- {netFees} INR</Text></Right>
+                  <Right><Text style={styles.remainingFees}>- {feesDues} INR</Text></Right>
                 </CardItem>
 
                 <CardItem footer bordered>
@@ -69,7 +80,7 @@ class Layout extends Component {
                   </Right>
                 </CardItem>
               </Card>
-              <AddFeesModal isModalVisible={this.state.isModalVisible} toggleModal={() => this.toggleModal()} onAddFess={this.props.onAddFess} netFees={netFees}/>
+              <AddFeesModal isModalVisible={this.state.isModalVisible} toggleModal={() => this.toggleModal()} onAddFess={this.props.onAddFess} feesDues={feesDues}/>
             </ScrollView>
 
             <Fab

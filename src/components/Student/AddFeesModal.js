@@ -30,13 +30,13 @@ class AddFeesModal extends Component {
       nextPaymentDate: '',
       paymentMode: 'Cash',
       remainingFees: '',
-      netFees: ''
+      feesDues: ''
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.netFees && nextProps.netFees !== prevState.netFees) {
-      return ({ netFees: nextProps.netFees })
+    if (nextProps.feesDues && nextProps.feesDues !== prevState.feesDues) {
+      return ({ feesDues: nextProps.feesDues })
     }
     return null;
   }
@@ -51,7 +51,7 @@ class AddFeesModal extends Component {
     this.setState({[key]: value});
     if (key === 'amount') {
       this.setState({
-        remainingFees: (this.state.netFees - value)
+        remainingFees: (this.state.feesDues - value)
       })
     }
   };

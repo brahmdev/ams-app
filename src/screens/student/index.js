@@ -8,6 +8,7 @@ import Layout from "./Layout";
 import {View, Text} from "native-base";
 import Loading from "../../components/Loading";
 import StudentHeader from "./StudentHeader";
+
 class StudentScreen extends Component {
 
   static navigationOptions = ({navigation}) => {

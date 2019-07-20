@@ -1,12 +1,27 @@
 import {subjectActionTypes, studentActionTypes, imageActionType, CALL_API, UPDATE_STORE} from './actionTypes';
 
 export function getAllStudents(branchId= 1, authString) {
-  console.log('get all students ', authString);
   return {
     type: studentActionTypes.API_GET_ALL_STUDENTS,
     apiType: CALL_API,
     callAPI: {
       apiPathWithParam: `/admin/users/${branchId}/ROLE_STUDENT`,
+      options: {
+        method: 'GET'
+      },
+      payload: {
+        authString
+      }
+    },
+  };
+}
+
+export function getStudentByUserName(userName, authString, branchId= 1,) {
+  return {
+    type: studentActionTypes.API_GET_STUDENT,
+    apiType: CALL_API,
+    callAPI: {
+      apiPathWithParam: `/admin/users/${branchId}/${userName}`,
       options: {
         method: 'GET'
       },
@@ -141,5 +156,13 @@ export function updateStudentDataInStore(user) {
     type: studentActionTypes.STORE_UPDATE_SELECTED_USER,
     apiType: UPDATE_STORE,
     data: user
+  };
+}
+
+export function updateFeesCollectionInStore(feesCollection) {
+  return {
+    type: studentActionTypes.STORE_UPDATE_FEES_COLLECTION,
+    apiType: UPDATE_STORE,
+    data: feesCollection
   };
 }

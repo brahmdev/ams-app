@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
     case userActionTypes.API_USER_LOGIN + apiExecutionState.STARTED:
       return {
         ...state,
-        isRequesting: true
+        isRequesting: false
       };
     case userActionTypes.API_USER_LOGIN + apiExecutionState.FINISHED:
       const user = JSON.parse(action.response);

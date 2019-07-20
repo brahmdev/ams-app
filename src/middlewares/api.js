@@ -42,7 +42,6 @@ async function makeRequest(store, action, next) {
   const url = SERVER_BASE_PATH + API_BASE_PATH + apiPathWithParam;
   const headers = new Headers();
 
-  // authString = getAMSUser();
   if (action.type === userActionTypes.API_USER_LOGIN) {
     headers.append('Authorization', 'Basic ' + base64.encode(payload.username + ':' + payload.password));
   } else {
@@ -50,7 +49,7 @@ async function makeRequest(store, action, next) {
     headers.append('Authorization', 'Basic ' + authString);
   }
 
-  console.log('headers are ', headers);
+  console.log('headers are ', headers, ' and url is: ', url, ' with action type: ', action.type);
   if (options.contentType) {
     headers.append('content-type', options.contentType);
   }
