@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {NavbarTitle} from '../../components';
 import {getAllStudents} from "../../actions/studentActions";
 import {getUserInfo} from "../../actions/User-Information-Action";
-import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import {
   Container,
   View,
@@ -25,6 +25,7 @@ import Colors from "../../constants/Colors";
 import Content from "../../components/Content";
 import Loading from "../../components/Loading";
 import NavigationService from "../../navigation/Navigation-Service";
+import { LineChart } from 'react-native-chart-kit'
 
 class HomeScreen extends Component {
 
@@ -118,6 +119,7 @@ class HomeScreen extends Component {
                 </Card>
               </Content>
             </Row>
+
             <View style={styles.line}/>
             <Content style={styles.container}>
               <Text style={{fontSize: 20}}>Academic Management</Text>
@@ -137,6 +139,8 @@ class HomeScreen extends Component {
                   </TouchableOpacity>
                 </Col>
                 <Col>
+                  <TouchableOpacity style={styles.touchable}
+                                    onPress={() => NavigationService.navigate("BatchScreen")}>
                   <Card>
                     <CardItem style={{backgroundColor: Colors.mauvePink}}>
                       <Body>
@@ -146,6 +150,7 @@ class HomeScreen extends Component {
                       </Body>
                     </CardItem>
                   </Card>
+                  </TouchableOpacity>
                 </Col>
               </Row>
 

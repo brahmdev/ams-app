@@ -1,13 +1,16 @@
 import {batchActionTypes, CALL_API} from './actionTypes';
 
-export function getAllBatches(instituteId) {
+export function getAllBatches(branchId= 1, authString) {
   return {
     type: batchActionTypes.API_GET_ALL_BATCHES,
     apiType: CALL_API,
     callAPI: {
-      apiPathWithParam: `/admin/batches/${instituteId}`,
+      apiPathWithParam: `/admin/batches/${branchId}`,
       options: {
         method: 'GET'
+      },
+      payload: {
+        authString
       }
     },
   };

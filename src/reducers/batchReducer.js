@@ -8,13 +8,24 @@ const initialState = {
   capacity: '',
   created: '',
   updated: '',
-  batchList: []
+  batchList: [],
+  isRequesting: false
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case batchActionTypes.API_GET_ALL_BATCHES + apiExecutionState.STARTED:
+    case batchActionTypes.API_CREATE_BATCH + apiExecutionState.STARTED:
+    case batchActionTypes.API_UPDATE_BATCH + apiExecutionState.STARTED:
+    case batchActionTypes.API_DELETE_BATCH + apiExecutionState.STARTED:
+      return {
+        ...state,
+        isRequesting: true
+      };
     case batchActionTypes.API_GET_ALL_BATCHES + apiExecutionState.FINISHED:
       const batchList = JSON.parse(action.response);
+      console.log('batchList ', batchList)
+
       return {
         ...state,
         batchList

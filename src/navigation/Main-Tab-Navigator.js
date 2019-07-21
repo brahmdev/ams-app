@@ -8,6 +8,7 @@ import StudentScreen from '../screens/student'
 import AccountScreen from '../screens/account';
 import AddStudentScreen from '../screens/addStudent';
 import StandardScreen from '../screens/standard';
+import BatchScreen from '../screens/batch';
 
 import {defaultNavigationOptions} from '../constants/Styles';
 import Colors from "../constants/Colors";
@@ -15,7 +16,8 @@ import Colors from "../constants/Colors";
 const HomeStack = createStackNavigator(
   {
     HomeScreen,
-    StandardScreen
+    StandardScreen,
+    BatchScreen
   },
   {defaultNavigationOptions}
 );

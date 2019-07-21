@@ -24,7 +24,6 @@ export default function (state = initialState, action) {
       };
     case standardActionTypes.API_GET_ALL_STANDARDS + apiExecutionState.FINISHED:
       const standardList = JSON.parse(action.response);
-      console.log('standardlist ', standardList)
       return {
         ...state,
         standardList,
