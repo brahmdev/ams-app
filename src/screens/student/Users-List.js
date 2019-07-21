@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, TouchableOpacity, RefreshControl} from "react-native";
 import {Container, View, Left, Body, Content, Right, List, ListItem, Text, Thumbnail, Icon, Button} from 'native-base';
-import PTRView from 'react-native-pull-to-refresh';
 
 const UserItem = ({item, onPressItem, onDeleteItem}) => {
   if (item.username !== '') {

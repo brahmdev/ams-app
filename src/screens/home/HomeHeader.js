@@ -13,7 +13,7 @@ export default class HomeHeader extends Component {
       <Header searchBar>
           <Body>
           <Title>
-            <Icon name={'ios-home'} style={{color: Colors.noticeText}} color={Colors.noticeText}/> Home
+            <Icon name={'ios-home'} style={{color: Colors.noticeText}} color={Colors.noticeText}/>  Home
           </Title>
           </Body>
         </Header>

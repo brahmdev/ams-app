@@ -29,10 +29,6 @@ class StudentScreen extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.getAllStudents(1, this.props.authString);
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.studentList.length > 0) {
       return ({items: nextProps.studentList});
