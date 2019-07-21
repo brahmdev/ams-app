@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Dimensions } from "react-native";
-import {Header, Left, Body, Right, Button, Icon, Title, View} from 'native-base';
+import {Header, Left, Body, Icon, Title, View} from 'native-base';
+import Colors from "../../constants/Colors";
 
 const screen = Dimensions.get("window");
 
@@ -11,7 +12,9 @@ export default class HomeHeader extends Component {
 
       <Header searchBar>
           <Body>
-          <Title>Home</Title>
+          <Title>
+            <Icon name={'ios-home'} style={{color: Colors.noticeText}} color={Colors.noticeText}/> Home
+          </Title>
           </Body>
         </Header>
       </View>

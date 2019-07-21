@@ -1,4 +1,4 @@
-const tintColor = '#fc6600';
+const tintColor = '#FF7417';
 
 export default {
   tintColor,
@@ -13,4 +13,19 @@ export default {
   noticeText: '#fff',
   pageTitle: '#464646',
   inputBorder: '#d0d0d0',
+  caribbeanGreen: '#3bb773',
+  purple: '#9E7BFF',
+  violet: '#852b99',
+  ferrariRed: '#FF2800',
+  bitterSweetRed: '#ff6961',
+  salmonRed: '#FA8072',
+  electricBlue: '#7EF9FF',
+  bluishGreen: '#0D98BA',
+  bumblebeeYellow: '#FCE205',
+  lemonYellow: '#EFFD5F',
+  peachYellow: '#FFE5B4',
+  cottonPink: '#FFB3DE',
+  mauvePink: '#EFC0FE',
+  webOrange: '#FFA600',
+  anaklawaBlue: '#A2CFFE'
 };
