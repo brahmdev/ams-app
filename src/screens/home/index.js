@@ -123,15 +123,18 @@ class HomeScreen extends Component {
               <Text style={{fontSize: 20}}>Academic Management</Text>
               <Row>
                 <Col>
-                  <Card>
-                    <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                      <Body>
-                      <Text>
-                        Class/Standard
-                      </Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
+                  <TouchableOpacity style={styles.touchable}
+                                    onPress={() => NavigationService.navigate("StandardScreen")}>
+                    <Card>
+                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
+                        <Body>
+                        <Text>
+                          Class/Standard
+                        </Text>
+                        </Body>
+                      </CardItem>
+                    </Card>
+                  </TouchableOpacity>
                 </Col>
                 <Col>
                   <Card>

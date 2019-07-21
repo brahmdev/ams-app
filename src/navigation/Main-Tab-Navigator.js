@@ -1,17 +1,24 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {Platform} from 'react-native';
+import {createStackNavigator, createBottomTabNavigator} from 'react-navigation';
 
-import { TabBarIcon } from '../components';
+import {TabBarIcon} from '../components';
 import HomeScreen from '../screens/home';
 import StudentScreen from '../screens/student'
 import AccountScreen from '../screens/account';
 import AddStudentScreen from '../screens/addStudent';
+import StandardScreen from '../screens/standard';
 
-import { defaultNavigationOptions } from '../constants/Styles';
+import {defaultNavigationOptions} from '../constants/Styles';
 import Colors from "../constants/Colors";
 
-const HomeStack = createStackNavigator({ HomeScreen }, { defaultNavigationOptions });
+const HomeStack = createStackNavigator(
+  {
+    HomeScreen,
+    StandardScreen
+  },
+  {defaultNavigationOptions}
+);
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
@@ -19,7 +26,7 @@ HomeStack.navigationOptions = {
     activeTintColor: Colors.tintColor,
     inactiveTintColor: Colors.tabIconDefault,
   },
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
       name={
@@ -31,7 +38,7 @@ HomeStack.navigationOptions = {
   )
 };
 
-const StudentStack = createStackNavigator({ StudentScreen }, { defaultNavigationOptions });
+const StudentStack = createStackNavigator({StudentScreen}, {defaultNavigationOptions});
 
 StudentStack.navigationOptions = {
   tabBarLabel: 'Student List',
@@ -39,7 +46,7 @@ StudentStack.navigationOptions = {
     activeTintColor: Colors.tintColor,
     inactiveTintColor: Colors.tabIconDefault,
   },
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
       name={
@@ -51,7 +58,7 @@ StudentStack.navigationOptions = {
   )
 };
 
-const AddStudentStack = createStackNavigator({ AddStudentScreen }, { defaultNavigationOptions });
+const AddStudentStack = createStackNavigator({AddStudentScreen}, {defaultNavigationOptions});
 
 AddStudentStack.navigationOptions = {
   tabBarLabel: 'Add Student',
@@ -59,7 +66,7 @@ AddStudentStack.navigationOptions = {
     activeTintColor: Colors.tintColor,
     inactiveTintColor: Colors.tabIconDefault,
   },
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
       name={
@@ -71,7 +78,7 @@ AddStudentStack.navigationOptions = {
   )
 };
 
-const AccountStack = createStackNavigator({ AccountScreen }, { defaultNavigationOptions });
+const AccountStack = createStackNavigator({AccountScreen}, {defaultNavigationOptions});
 
 AccountStack.navigationOptions = {
   tabBarLabel: 'Profile',
@@ -79,7 +86,7 @@ AccountStack.navigationOptions = {
     activeTintColor: Colors.tintColor,
     inactiveTintColor: Colors.tabIconDefault,
   },
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
       name={

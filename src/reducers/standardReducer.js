@@ -6,16 +6,29 @@ const initialState = {
   name: '',
   fees: '',
   standardLookUp: {},
-  standardList: []
+  standardList: [],
+  isRequesting: false
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case standardActionTypes.API_GET_ALL_STANDARDS + apiExecutionState.FINISHED:
-      const standardList = JSON.parse(action.response);
+    case standardActionTypes.API_GET_ALL_STANDARDS + apiExecutionState.STARTED:
+    case standardActionTypes.API_GET_STANDARD + apiExecutionState.STARTED:
+    case standardActionTypes.API_GET_ALL_STANDARDS_LOOKUP + apiExecutionState.STARTED:
+    case standardActionTypes.API_CREATE_STANDARD + apiExecutionState.STARTED:
+    case standardActionTypes.API_UPDATE_STANDARD + apiExecutionState.STARTED:
+    case standardActionTypes.API_DELETE_STANDARD + apiExecutionState.STARTED:
       return {
         ...state,
-        standardList
+        isRequesting: true
+      };
+    case standardActionTypes.API_GET_ALL_STANDARDS + apiExecutionState.FINISHED:
+      const standardList = JSON.parse(action.response);
+      console.log('standardlist ', standardList)
+      return {
+        ...state,
+        standardList,
+        isRequesting: false
       };
     case standardActionTypes.API_GET_STANDARD + apiExecutionState.FINISHED:
       const standard = JSON.parse(action.response);

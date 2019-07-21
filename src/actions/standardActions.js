@@ -1,13 +1,16 @@
 import {standardActionTypes, CALL_API, studentActionTypes} from './actionTypes';
 
-export function getAllStandards(instituteId) {
+export function getAllStandards(branchId= 1, authString) {
   return {
     type: standardActionTypes.API_GET_ALL_STANDARDS,
     apiType: CALL_API,
     callAPI: {
-      apiPathWithParam: `/admin/standards/${instituteId}`,
+      apiPathWithParam: `/admin/standards/${branchId}`,
       options: {
         method: 'GET'
+      },
+      payload: {
+        authString
       }
     },
   };
