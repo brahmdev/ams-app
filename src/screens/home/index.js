@@ -25,7 +25,7 @@ import Colors from "../../constants/Colors";
 import Content from "../../components/Content";
 import Loading from "../../components/Loading";
 import NavigationService from "../../navigation/Navigation-Service";
-import { LineChart } from 'react-native-chart-kit'
+import {LineChart} from 'react-native-chart-kit'
 
 class HomeScreen extends Component {
 
@@ -141,41 +141,47 @@ class HomeScreen extends Component {
                 <Col>
                   <TouchableOpacity style={styles.touchable}
                                     onPress={() => NavigationService.navigate("BatchScreen")}>
-                  <Card>
-                    <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                      <Body>
-                      <Text>
-                        Batch/Division
-                      </Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
+                    <Card>
+                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
+                        <Body>
+                        <Text>
+                          Batch/Division
+                        </Text>
+                        </Body>
+                      </CardItem>
+                    </Card>
                   </TouchableOpacity>
                 </Col>
               </Row>
 
               <Row>
                 <Col>
-                  <Card>
-                    <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                      <Body>
-                      <Text>
-                        Subjects
-                      </Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
+                  <TouchableOpacity style={styles.touchable}
+                                    onPress={() => NavigationService.navigate("SubjectScreen")}>
+                    <Card>
+                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
+                        <Body>
+                        <Text>
+                          Subjects
+                        </Text>
+                        </Body>
+                      </CardItem>
+                    </Card>
+                  </TouchableOpacity>
                 </Col>
                 <Col>
-                  <Card>
-                    <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                      <Body>
-                      <Text>
-                        Chapters
-                      </Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
+                  <TouchableOpacity style={styles.touchable}
+                                    onPress={() => NavigationService.navigate("ChapterScreen")}>
+                    <Card>
+                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
+                        <Body>
+                        <Text>
+                          Chapters
+                        </Text>
+                        </Body>
+                      </CardItem>
+                    </Card>
+                  </TouchableOpacity>
                 </Col>
               </Row>
 

@@ -1,13 +1,16 @@
 import { chapterActionTypes, CALL_API } from './actionTypes';
 
-export function getAllChapters(instituteId) {
+export function getAllChapters(branchId= 1, authString) {
   return {
     type: chapterActionTypes.API_GET_ALL_CHAPTERS,
     apiType: CALL_API,
     callAPI: {
-      apiPathWithParam: `/admin/chapters/${instituteId}`,
+      apiPathWithParam: `/admin/chapters/${branchId}`,
       options: {
         method: 'GET'
+      },
+      payload: {
+        authString
       }
     },
   };

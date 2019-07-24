@@ -4,22 +4,33 @@ const initialState = {
   id: '',
   code: '',
   name: '',
-  chapterList: []
+  chapterList: [],
+  isRequesting: false
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case chapterActionTypes.API_GET_ALL_CHAPTERS + apiExecutionState.STARTED:
+    case chapterActionTypes.API_CREATE_CHAPTER + apiExecutionState.STARTED:
+    case chapterActionTypes.API_UPDATE_CHAPTER + apiExecutionState.STARTED:
+    case chapterActionTypes.API_DELETE_CHAPTER + apiExecutionState.STARTED:
+      return {
+        ...state,
+        isRequesting: true
+      };
     case chapterActionTypes.API_GET_ALL_CHAPTERS + apiExecutionState.FINISHED:
       const chapterList = JSON.parse(action.response);
       return {
         ...state,
-        chapterList
+        chapterList,
+        isRequesting: false
       };
     case chapterActionTypes.API_CREATE_CHAPTER + apiExecutionState.FINISHED:
       const createdBoard = JSON.parse(action.response);
       state.chapterList.push(createdBoard);
       return {
         ...state,
+        isRequesting: false
       };
     case chapterActionTypes.API_UPDATE_CHAPTER + apiExecutionState.FINISHED:
       const chapterToUpdate = action.payload;
@@ -31,6 +42,7 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
+        isRequesting: false
       };
     case chapterActionTypes.API_DELETE_CHAPTER + apiExecutionState.FINISHED:
       const chapterIdToDelete = action.payload;
@@ -41,6 +53,7 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
+        isRequesting: false
       };
 
     default:

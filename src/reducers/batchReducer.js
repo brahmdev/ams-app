@@ -24,17 +24,17 @@ export default function (state = initialState, action) {
       };
     case batchActionTypes.API_GET_ALL_BATCHES + apiExecutionState.FINISHED:
       const batchList = JSON.parse(action.response);
-      console.log('batchList ', batchList)
-
       return {
         ...state,
-        batchList
+        batchList,
+        isRequesting: false
       };
     case batchActionTypes.API_CREATE_BATCH + apiExecutionState.FINISHED:
       const createdBoard = JSON.parse(action.response);
       state.batchList.push(createdBoard);
       return {
         ...state,
+        isRequesting: false
       };
     case batchActionTypes.API_UPDATE_BATCH + apiExecutionState.FINISHED:
       const batchToUpdate = action.payload;
@@ -46,6 +46,7 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
+        isRequesting: false
       };
     case batchActionTypes.API_DELETE_BATCH + apiExecutionState.FINISHED:
       const batchIdToDelete = action.payload;
@@ -56,6 +57,7 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
+        isRequesting: false
       };
 
     default:

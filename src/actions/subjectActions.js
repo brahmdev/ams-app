@@ -1,13 +1,16 @@
 import {subjectActionTypes, CALL_API} from './actionTypes';
 
-export function getAllSubjects(instituteId) {
+export function getAllSubjects(branchId= 1, authString) {
   return {
     type: subjectActionTypes.API_GET_ALL_SUBJECTS,
     apiType: CALL_API,
     callAPI: {
-      apiPathWithParam: `/admin/subjects/${instituteId}`,
+      apiPathWithParam: `/admin/subjects/${branchId}`,
       options: {
         method: 'GET'
+      },
+      payload: {
+        authString
       }
     },
   };

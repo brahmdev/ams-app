@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Text, List, ListItem, Body, Right, Container, Content} from 'native-base';
 import Colors from "../../constants/Colors";
 import {getAllStandards} from "../../actions/standardActions";
@@ -58,6 +58,21 @@ class StandardScreen extends Component {
           <List>
             {this.renderStandard(standardList)}
           </List>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={this.clickHandler}
+            style={styles.TouchableOpacityStyle}>
+            <Image
+              //We are making FAB using TouchableOpacity with an image
+              //We are using online image here
+              source={{
+                uri:'https://aboutreact.com/wp-content/uploads/2018/08/bc72de57b000a7037294b53d34c2cbd1.png',
+              }}
+              //You can use you project image Example below
+              //source={require('./images/float-add-icon.png')}
+              style={styles.FloatingButtonStyle}
+            />
+          </TouchableOpacity>
         </Content>
       </Container>
     );
@@ -68,6 +83,22 @@ const styles = StyleSheet.create({
   touchable: {
     flex: 1,
     flexDirection: 'row',
+  },
+  TouchableOpacityStyle: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 20,
+    bottom: 10,
+  },
+
+  FloatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 50,
+    height: 50,
+    //backgroundColor:'black'
   },
 });
 

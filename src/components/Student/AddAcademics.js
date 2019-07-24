@@ -66,28 +66,26 @@ class AddAcademics extends Component {
                     disabled={true}
                   />
                 </Item>
-                <Item style={{marginTop: 30}}>
-                  <Label>Standard</Label>
+
+                <Item style={{flex:1, marginTop: 30}}>
+                  <Label>Choose Standard</Label>
                   <Picker
-                    inlineLabel
                     mode="dropdown"
                     iosHeader="Standard"
-                    style={styles.picker}
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{width: undefined }}
                     itemTextStyle={styles.itemStyle}
                     textStyle={{textAlign: 'center'}}
-                    iosIcon={<Icon name="arrow-down" />}
                     selectedValue={values['standard'] ? values['standard'] : ''}
                     onValueChange={val => this.handleChange("standard", val)}
                   >
                     {this.createStandardMenuItem()}
-
                   </Picker>
                 </Item>
 
-                <Item style={{marginTop: 30}}>
-                  <Label>Batch</Label>
+                <Item style={{flex:1, marginTop: 30}}>
+                  <Label>Choose Batch</Label>
                   <Picker
-                    inlineLabel
                     mode="dropdown"
                     iosHeader="Batch"
                     style={styles.picker}

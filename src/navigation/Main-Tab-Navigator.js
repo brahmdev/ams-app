@@ -9,6 +9,8 @@ import AccountScreen from '../screens/account';
 import AddStudentScreen from '../screens/addStudent';
 import StandardScreen from '../screens/standard';
 import BatchScreen from '../screens/batch';
+import SubjectScreen from '../screens/subject';
+import ChapterScreen from '../screens/chapter';
 
 import {defaultNavigationOptions} from '../constants/Styles';
 import Colors from "../constants/Colors";
@@ -17,7 +19,9 @@ const HomeStack = createStackNavigator(
   {
     HomeScreen,
     StandardScreen,
-    BatchScreen
+    BatchScreen,
+    SubjectScreen,
+    ChapterScreen
   },
   {defaultNavigationOptions}
 );
