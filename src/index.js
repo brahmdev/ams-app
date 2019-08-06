@@ -8,4 +8,5 @@ EStyleSheet.build({
   $rem: entireScreenWidth / 380
 });
 
+let RootNavigationEntry;
 export default RootNavigationEntry = () => <RootNavigation />
