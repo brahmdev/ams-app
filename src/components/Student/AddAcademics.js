@@ -20,6 +20,7 @@ class AddAcademics extends Component {
 
   createStandardMenuItem = () => {
     let standardMenuItem = [];
+    standardMenuItem.push(<Picker.Item key={`-1`} label={'No standard selected'} value={'-1'}></Picker.Item>);
     const standardLookUp = this.props.standardLookUp;
     for (let key of Object.keys(standardLookUp)) {
       standardMenuItem.push(<Picker.Item key={`standard_${key}`} label={standardLookUp[key]} value={key}></Picker.Item>);
@@ -29,10 +30,14 @@ class AddAcademics extends Component {
 
   createBatchMenuItem = () => {
     let batchMenuItem = [];
+    batchMenuItem.push(<Picker.Item key={`-1`} label={'No batch selected'} value={'-1'}></Picker.Item>);
+
     const batchLookUp = this.props.batchLookUp;
     //console.log('batchLookup ', batchLookUp);
-    for (let key of Object.keys(batchLookUp)) {
-      batchMenuItem.push(<Picker.Item key={`batch_${key}`} label={batchLookUp[key]} value={key}></Picker.Item>);
+    if (batchLookUp) {
+      for (let key of Object.keys(batchLookUp)) {
+        batchMenuItem.push(<Picker.Item key={`batch_${key}`} label={batchLookUp[key]} value={key}></Picker.Item>);
+      }
     }
     return batchMenuItem;
   };
@@ -46,7 +51,7 @@ class AddAcademics extends Component {
           <Content>
             <ScrollView>
               <Form>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("rollNo")}>
                   <Label>Roll No.</Label>
                   <Input value={values['rollNo'] ? values['rollNo'] : ''} name="rollNo" onChangeText={val => onChange("rollNo", val)}/>
                 </Item>
@@ -67,7 +72,7 @@ class AddAcademics extends Component {
                   />
                 </Item>
 
-                <Item style={{flex:1, marginTop: 30}}>
+                <Item style={{flex:1, marginTop: 30}} error={errors.includes("standard")}>
                   <Label>Choose Standard</Label>
                   <Picker
                     mode="dropdown"
@@ -83,7 +88,7 @@ class AddAcademics extends Component {
                   </Picker>
                 </Item>
 
-                <Item style={{flex:1, marginTop: 30}}>
+                <Item style={{flex:1, marginTop: 30}} error={errors.includes("batch")}>
                   <Label>Choose Batch</Label>
                   <Picker
                     mode="dropdown"
@@ -99,7 +104,7 @@ class AddAcademics extends Component {
 
                   </Picker>
                 </Item>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("totalFees")}>
                   <Label>Total Fees</Label>
                   <Input value={values['totalFees'] ? values['totalFees'] : ''} name="totalFees" onChangeText={val => onChange("totalFees", val)}/>
                 </Item>

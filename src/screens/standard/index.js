@@ -58,21 +58,6 @@ class StandardScreen extends Component {
           <List>
             {this.renderStandard(standardList)}
           </List>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={this.clickHandler}
-            style={styles.TouchableOpacityStyle}>
-            <Image
-              //We are making FAB using TouchableOpacity with an image
-              //We are using online image here
-              source={{
-                uri:'https://aboutreact.com/wp-content/uploads/2018/08/bc72de57b000a7037294b53d34c2cbd1.png',
-              }}
-              //You can use you project image Example below
-              //source={require('./images/float-add-icon.png')}
-              style={styles.FloatingButtonStyle}
-            />
-          </TouchableOpacity>
         </Content>
       </Container>
     );

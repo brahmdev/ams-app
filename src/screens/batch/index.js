@@ -49,7 +49,7 @@ class BatchScreen extends Component {
   renderBatch = (batchList) => {
     let batchItem = [];
     batchList.length > 0 ? batchList.forEach(item => batchItem.push(<BatchItem key={item.id}
-                                                                                           item={item}/>)) : null;
+                                                                               item={item}/>)) : null;
     return batchItem;
   };
 
@@ -61,21 +61,6 @@ class BatchScreen extends Component {
           <List>
             {this.renderBatch(batchList)}
           </List>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={this.clickHandler}
-            style={styles.TouchableOpacityStyle}>
-            <Image
-              //We are making FAB using TouchableOpacity with an image
-              //We are using online image here
-              source={{
-                uri:'https://aboutreact.com/wp-content/uploads/2018/08/bc72de57b000a7037294b53d34c2cbd1.png',
-              }}
-              //You can use you project image Example below
-              //source={require('./images/float-add-icon.png')}
-              style={styles.FloatingButtonStyle}
-            />
-          </TouchableOpacity>
         </Content>
       </Container>
     );

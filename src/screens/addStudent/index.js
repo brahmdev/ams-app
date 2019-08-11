@@ -33,7 +33,9 @@ class AddStudentScreen extends Component {
     errors: false,
     studentPersonalDetailsErrors: [],
     parentDetailsErrors: [],
-    studentAcademicDetailsErrors: []
+    studentAcademicDetailsErrors: [],
+    batchLookupList: {},
+    firstBatchAfterStandardChange: null
   };
 
   defaultScrollViewProps = {
@@ -94,20 +96,35 @@ class AddStudentScreen extends Component {
     this.props.getAllStandardLookUpForStudent(branchId, this.props.user.authString);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (Object.keys(nextProps.userData.batchLookUp).length > 0 && prevState.firstBatchAfterStandardChange === null) {
+      return ({ firstBatchAfterStandardChange: Object.keys(nextProps.userData.batchLookUp)[0].id, batchLookUpList: nextProps.userData.batchLookUp })
+    } else {
+      return ({ batchLookUpList: nextProps.userData.batchLookUp })
+    }
+    return true;
+  }
+
   resetAndInitializeWizardValues = ()  => {
     this.studentPersonalDetailsFieldsValue = {};
     this.parentDetailsFieldsValue = {};
     this.studentAcademicDetailsFieldsValue = {};
 
     this.studentPersonalDetailsFieldsValue =  {
+      password: "student123",
       dob: new Date(),
       gender: "Male",
       city: 'Mumbai',
       state: 'Maharashtra',
-      country: 'India'
+      country: 'India',
+      //mobile: '1234567890',
+      //address: 'testAddress'
     };
     this.parentDetailsFieldsValue =  {
-      "gender": "Male"
+      password: "parent123",
+      gender: "Male",
+      //mobile: '1234567890',
+      //relation: 'Father'
     };
     this.studentAcademicDetailsFieldsValue = {
       admissionDate: new Date(),
@@ -120,8 +137,6 @@ class AddStudentScreen extends Component {
       studentAcademicDetailsErrors: []
     });
 
-    //this.avatar = '';
-    //this.sign = '';
   };
 
   onNextStep = () => {
@@ -130,6 +145,17 @@ class AddStudentScreen extends Component {
 
   onPersonalDetailComplete = () => {
     console.log('studentPersonalDetailsFieldsValue ', this.studentPersonalDetailsFieldsValue);
+    const { firstname, lastname, address, username} = this.studentUser;
+    if (firstname === undefined || lastname === undefined || address === undefined || username === undefined) {
+      this.setState({
+        errors: true
+      });
+      this.showErrorOnPersonalDetailField(firstname, lastname, address, username);
+    } else {
+      this.setState({
+        errors: false
+      });
+    }
     this.studentUser = this.studentPersonalDetailsFieldsValue;
     this.studentUser.branch = this.branch;
     const authoritiesesStudent = {
@@ -138,11 +164,41 @@ class AddStudentScreen extends Component {
     };
     this.studentUser.created = new Date();
     this.studentUser.authoritieses = [authoritiesesStudent];
+  };
 
-    //this.setState({errors: true, isValid: false})
+  showErrorOnPersonalDetailField = (firstname, lastname, address, username) => {
+    let errorFields = [];
+    console.log(address, ' : ', username);
+    if (firstname === undefined) {
+      errorFields.push("firstname");
+    }
+    if (lastname === undefined) {
+      errorFields.push("lastname");
+    }
+    if (address === undefined) {
+      errorFields.push("address");
+    }
+    if (username === undefined) {
+      errorFields.push("username");
+    }
+    this.setState({
+      studentPersonalDetailsErrors: errorFields
+    })
+
   };
 
   onParentDetailComplete = () => {
+    const { firstname, lastname, username, mobile, relation} = this.parentDetailsFieldsValue;
+    if (firstname === undefined || lastname === undefined || username === undefined || mobile === undefined || relation === undefined) {
+      this.setState({
+        errors: true
+      });
+      this.showErrorOnParentDetailField(firstname, lastname, username, mobile, relation);
+    } else {
+      this.setState({
+        errors: false
+      });
+    }
     this.parentUser = this.parentDetailsFieldsValue;
     this.parentUser.branch = this.branch;
     this.parentUser.address = this.studentUser.address;
@@ -166,21 +222,78 @@ class AddStudentScreen extends Component {
     this.parentUser.authoritieses = [authoritiesesParent];
   };
 
+  showErrorOnParentDetailField = (firstname, lastname, username, mobile, relation) => {
+    let errorFields = [];
+    if (firstname === undefined) {
+      errorFields.push("firstname");
+    }
+    if (lastname === undefined) {
+      errorFields.push("lastname");
+    }
+    if (mobile === undefined) {
+      errorFields.push("mobile");
+    }
+    if (username === undefined) {
+      errorFields.push("username");
+    }
+    if (relation === undefined) {
+      errorFields.push("relation");
+    }
+    this.setState({
+      parentDetailsErrors: errorFields
+    })
+  };
+
   onAcademicDetailComplete = () => {
+    const { standard, batch, totalFees, rollNo } = this.studentAcademicDetailsFieldsValue;
+    this.showErrorOnAcademicDetailField(rollNo, standard, batch, totalFees);
+
+    if (standard === undefined || standard === "-1" || batch === undefined || batch === "-1" || totalFees === undefined || rollNo === undefined) {
+      this.setState({
+        errors: true
+      });
+    } else {
+      this.setState({
+        errors: false
+      });
+    }
     if (this.studentAcademicDetailsFieldsValue.hasPaidFees === true) {
       this.studentAcademicDetailsFieldsValue.hasPaidFees = "Y";
     } else {
       this.studentAcademicDetailsFieldsValue.hasPaidFees = "N";
     }
-    const batchId = this.studentAcademicDetailsFieldsValue.batch;
+    let selectedBatchId = this.studentAcademicDetailsFieldsValue.batch;
+    if (selectedBatchId === undefined) {
+      selectedBatchId = this.state.firstBatchAfterStandardChange;
+    }
     delete this.studentAcademicDetailsFieldsValue['batch'];
-    const batch = {
-      "id": batchId
+    const batchToBeAssign = {
+      "id": selectedBatchId
     };
-    this.studentAcademicDetailsFieldsValue.batch = batch;
+    this.studentAcademicDetailsFieldsValue.batch = batchToBeAssign;
     this.studentAcademicDetailsFieldsValue.parentsUsername = this.parentDetailsFieldsValue.username;
 
     this.studentUser.studentDetailses = [this.studentAcademicDetailsFieldsValue];
+  };
+
+  showErrorOnAcademicDetailField = (rollNo, standard, batch, totalFees) => {
+    let errorFields = [];
+    if (rollNo === undefined) {
+      errorFields.push("rollNo");
+    }
+    if (standard === undefined) {
+      errorFields.push("standard");
+    }
+    if (batch === undefined) {
+      errorFields.push("batch");
+    }
+    if (totalFees === undefined) {
+      errorFields.push("totalFees");
+    }
+    this.setState({
+      studentAcademicDetailsErrors: errorFields
+    })
+
   };
 
   onPrevStep = () => {
@@ -188,12 +301,13 @@ class AddStudentScreen extends Component {
   };
 
   onSubmitSteps = () => {
-    this.studentUser.avatar = SERVER_BASE_PATH + '/images/ams/avatar/' + this.studentUser.username +'.jpg';
-    this.studentUser.signature = SERVER_BASE_PATH + '/images/ams/signature/' + this.studentUser.username +'.jpg';
+    this.studentUser.avatar = 'https://devarena-ams.s3.amazonaws.com/test/avatar/' + this.studentUser.username +'.png';
+    this.studentUser.signature = 'https://devarena-ams.s3.amazonaws.com/test/signature/' + this.studentUser.username +'.png';
 
     this.props.createUser(this.studentUser, this.props.user.authString);
     this.props.createUser(this.parentUser, this.props.user.authString);
 
+    console.log('student data is ', this.studentUser);
     let formData = new FormData();
     formData.append('file', {
       uri : this.avatar,
@@ -224,7 +338,7 @@ class AddStudentScreen extends Component {
 
   onChangeStudentPersonalDetailsFormField = (name, value) => {
     const {studentPersonalDetailsErrors} = this.state;
-    const { firstname, lastname } = this.studentPersonalDetailsFieldsValue;
+    const { firstname, lastname, address, username } = this.studentPersonalDetailsFieldsValue;
     this.studentPersonalDetailsFieldsValue[name] = value;
     if ((value && value.length > 0) || (name === 'dob' && this.isValidDate(value))) {
       studentPersonalDetailsErrors[name] = false;
@@ -237,26 +351,27 @@ class AddStudentScreen extends Component {
       studentPersonalDetailsFieldsValue.username = this.makeUserName(this.studentPersonalDetailsFieldsValue.firstname, this.studentPersonalDetailsFieldsValue.lastname, 6);
       studentPersonalDetailsErrors.username = false;
     }
-    this.setState({studentPersonalDetailsErrors});
+    this.showErrorOnPersonalDetailField(firstname, lastname, address, username)
 
   };
 
   onChangeParentDetailsFormField = (name, value) => {
     const {parentDetailsErrors} = this.state;
+    const {firstname, lastname, username, mobile, relation} = this.parentDetailsFieldsValue;
     this.parentDetailsFieldsValue[name] = value;
     if (value && value.length > 0) {
       parentDetailsErrors[name] = false;
       this.setState({parentDetailsErrors, isParentDetailsFormInValid: false});
     }
     if (this.parentDetailsFieldsValue.username && this.parentDetailsFieldsValue.username.trim().length > 0) {
-      this.setState({parentDetailsErrors});
+      this.showErrorOnParentDetailField(firstname, lastname, username, mobile, relation);
       return;
     } else if (this.parentDetailsFieldsValue.firstname && this.parentDetailsFieldsValue.lastname && this.parentDetailsFieldsValue.firstname.trim().length > 0 && this.parentDetailsFieldsValue.lastname.trim().length > 0) {
       const parentDetailsRequiredFields = this.parentDetailsFieldsValue;
       parentDetailsRequiredFields.username = this.makeUserName(this.parentDetailsFieldsValue.firstname, this.parentDetailsFieldsValue.lastname, 6);
       parentDetailsErrors.username = false;
     }
-    this.setState({parentDetailsErrors});
+    this.showErrorOnParentDetailField(firstname, lastname, username, mobile, relation);
   };
 
 
@@ -267,15 +382,18 @@ class AddStudentScreen extends Component {
 
   onChangeStudentAcademicDetailsFormField = (name, value) => {
     const {studentAcademicDetailsErrors} = this.state;
+    const { rollNo, standard, batch, totalFees } = this.studentAcademicDetailsFieldsValue;
+
     this.studentAcademicDetailsFieldsValue[name] = value;
     if (value && value.length > 0) {
       studentAcademicDetailsErrors[name] = false;
       this.setState({studentAcademicDetailsErrors, isParentDetailsFormInValid: false});
     }
-    this.setState({studentAcademicDetailsErrors});
+    this.showErrorOnAcademicDetailField(rollNo, standard, batch, totalFees);
   };
 
   onAvatarChange = (avatar)  => {
+    console.log('this.avatar is ', avatar);
     this.avatar = avatar;
   };
 
@@ -321,7 +439,7 @@ class AddStudentScreen extends Component {
                                         values={this.studentAcademicDetailsFieldsValue}
                                         standardLookUp={this.props.userData.standardLookUp}
                                         onStandardChange={(standardId) => this.handleStandardChange(standardId)}
-                                        batchLookUp={this.props.userData.batchLookUp}/>
+                                        batchLookUp={this.state.batchLookUpList}/>
           </ProgressStep>
 
           <ProgressStep

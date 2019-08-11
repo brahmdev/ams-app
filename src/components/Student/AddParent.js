@@ -14,15 +14,15 @@ class AddParent extends Component {
           <Content>
             <ScrollView>
               <Form>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("firstname")}>
                   <Label>FirstName</Label>
                   <Input value={values['firstname'] ? values['firstname'] : ''} name="firstname" onChangeText={val => onChange("firstname", val)}/>
                 </Item>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("lastname")}>
                   <Label>LastName</Label>
                   <Input value={values['lastname'] ? values['lastname'] : ''} name="lastname" onChangeText={val => onChange("lastname", val)}/>
                 </Item>
-                <Item floatingLabel disabled>
+                <Item floatingLabel disabled error={errors.includes("username")}>
                   <Label>UserName</Label>
                   <Input value={values['username'] ? values['username'] : ''} disabled/>
                 </Item>
@@ -30,7 +30,7 @@ class AddParent extends Component {
                   <Label>Password</Label>
                   <Input value={values['password'] ? values['password'] : ''} name="password" onChangeText={val => onChange("password", val)}/>
                 </Item>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("mobile")}>
                   <Label>Mobile</Label>
                   <Input value={values['mobile'] ? values['mobile'] : ''} keyboardType="numeric" name="mobile" onChangeText={val => onChange("mobile", val)}/>
                 </Item>
@@ -42,7 +42,6 @@ class AddParent extends Component {
                   <Label>Date of birth</Label>
                   <DatePicker
                     defaultDate={new Date()}
-                    minimumDate={new Date(1980, 1, 1)}
                     maximumDate={new Date()}
                     locale={"en"}
                     timeZoneOffsetInMinutes={undefined}

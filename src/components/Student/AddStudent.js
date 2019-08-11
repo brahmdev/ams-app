@@ -14,21 +14,21 @@ class AddStudent extends Component {
           <Content>
             <ScrollView>
               <Form>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("firstname")}>
                   <Label>FirstName</Label>
                   <Input value={values['firstname'] ? values['firstname'] : ''} name="firstname" onChangeText={val => onChange("firstname", val)}/>
                 </Item>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("lastname")}>
                   <Label>LastName</Label>
                   <Input value={values['lastname'] ? values['lastname'] : ''} name="lastname" onChangeText={val => onChange("lastname", val)}/>
                 </Item>
-                <Item floatingLabel disabled>
+                <Item floatingLabel disabled error={errors.includes("firstname")}>
                   <Label>UserName</Label>
                   <Input value={values['username'] ? values['username'] : ''} disabled/>
                 </Item>
                 <Item floatingLabel disabled>
                   <Label>Password</Label>
-                  <Input value={values['password'] ? values['password'] : ''} name="password" onChangeText={val => onChange("password", val)}/>
+                  <Input value={values['password'] ? values['password'] : ''} name="password" disabled/>
                 </Item>
                 <Item floatingLabel>
                   <Label>Mobile</Label>
@@ -42,7 +42,6 @@ class AddStudent extends Component {
                   <Label>Date of birth</Label>
                   <DatePicker
                     defaultDate={new Date()}
-                    minimumDate={new Date(1980, 1, 1)}
                     maximumDate={new Date()}
                     locale={"en"}
                     timeZoneOffsetInMinutes={undefined}
@@ -74,7 +73,7 @@ class AddStudent extends Component {
                     <Picker.Item label="Others" value="Others" />
                   </Picker>
                 </Item>
-                <Item floatingLabel>
+                <Item floatingLabel error={errors.includes("address")}>
                   <Label>Address</Label>
                   <Input rowSpan={5} value={values['address'] ? values['address'] : ''} bordered name="address" onChangeText={val => onChange("address", val)}/>
                 </Item>
