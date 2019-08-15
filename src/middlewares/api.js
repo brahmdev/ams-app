@@ -60,6 +60,8 @@ async function makeRequest(store, action, next) {
   });
 
   response.text = await response.text();
+
+  console.log('response.text ',  response.text)
   if (response.ok) {
     notifyReducersWithSuccess(action, next, response.text);
     executeNextSuccessHandlers(action, store, response.text);

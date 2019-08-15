@@ -94,14 +94,8 @@ class StudentScreen extends Component {
     };
     if (isRequesting) {
       return <Loading/>;
-    } else if (errorMessage === '') {
-      return <Layout listProps={listProps} isRequesting={isRequesting}/>;
     } else {
-      return (
-        <View>
-          <Text>{errorMessage}</Text>
-        </View>
-      )
+      return <Layout listProps={listProps} isRequesting={isRequesting} errorMessage={errorMessage}/>;
     }
   }
 

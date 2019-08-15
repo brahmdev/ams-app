@@ -5,9 +5,9 @@ import UsersList from "./Users-List";
 class Layout extends Component {
 
   render() {
-    const {listProps, isRequesting} = this.props;
+    const {listProps, isRequesting, errorMessage} = this.props;
     return (
-      <UsersList listProps={listProps} isRequesting={isRequesting}/>
+      <UsersList listProps={listProps} isRequesting={isRequesting} errorMessage={errorMessage}/>
     );
   }
 }

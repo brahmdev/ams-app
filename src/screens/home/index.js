@@ -18,22 +18,30 @@ import {
   Left,
   Icon,
   Button,
-  ListItem
+  ListItem,
+  Thumbnail,
+  Header,
+  Tabs,
+  Tab,
+  TabHeading,
+  ScrollableTab
 } from "native-base";
-import HomeHeader from "./HomeHeader";
 import Colors from "../../constants/Colors";
 import Content from "../../components/Content";
 import Loading from "../../components/Loading";
 import NavigationService from "../../navigation/Navigation-Service";
-import {LineChart} from 'react-native-chart-kit'
+import StudentsTab from "./StudentsTab";
 
 class HomeScreen extends Component {
 
-  static navigationOptions = () => {
-    return {
-      headerLeft: null,
-      headerTitle: <HomeHeader/>,
-      headerRight: null
+  static navigationOptions = ({navigation}) => {
+    if (navigation.state.params) {
+      let {firstname, lastname, avatar} = navigation.state.params;
+      return {
+        headerLeft: <Thumbnail small source={{uri: avatar}} style={{marginLeft: 15}}/>,
+        headerTitle: <Text style={{fontWeight: "bold", fontSize: 16}}>{`Welcome ${firstname}`} </Text>,
+        headerRight: <Icon name="ios-menu" style={{marginRight: 10}}/>
+      }
     }
   };
 
@@ -63,6 +71,15 @@ class HomeScreen extends Component {
     };
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.firstname && nextProps.lastname && nextProps.avatar && !nextProps.navigation.getParam('firstname')) {
+      const {firstname, lastname, avatar} = nextProps;
+      nextProps.navigation.setParams({firstname, lastname, avatar});
+      return true;
+    }
+    return null;
+  }
+
   renderContent() {
     const {studentList, isRequesting} = this.props;
     const feesInfo = this.calculateFeesCollection(studentList);
@@ -71,147 +88,31 @@ class HomeScreen extends Component {
     } else {
       return (
         <ScrollView>
-          <Grid>
-            <Row>
-              <Col>
-                <TouchableOpacity style={styles.touchable} onPress={() => NavigationService.navigate("StudentScreen")}>
-                  <Card>
-                    <CardItem style={{backgroundColor: Colors.webOrange}}>
-                      <Body>
-                      <Text style={{fontSize: 20}}>Student Count</Text>
-                      <Icon name='ios-school'/>
-                      </Body>
-                      <Right>
-                        <Text style={{fontSize: 20}}>{studentList.length}</Text>
-                      </Right>
-                    </CardItem>
-                  </Card>
-                </TouchableOpacity>
+          <Container>
+            <Tabs tabBarUnderlineStyle={{ backgroundColor: Colors.tintColor, height: 2 }}  renderTabBar={() => <ScrollableTab/>}>
 
-              </Col>
-            </Row>
-            <Row>
-              <Content style={{backgroundColor: Colors.anaklawaBlue, marginLeft: 3, marginRight: 3, padding: 5}}>
-                <Text style={{fontSize: 20}}>Fees Module</Text>
-                <Card>
-                  <CardItem style={{backgroundColor: Colors.caribbeanGreen}}>
-                    <Body>
-                    <Text style={{color: Colors.noticeText}}>Collection</Text>
-                    <Icon style={{color: Colors.noticeText}} name='ios-cash'/>
-                    </Body>
-                    <Right>
-                      <Text
-                        style={{color: Colors.noticeText}}>₹ {feesInfo.totalFeesCollection.toFixed(2).replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,')}</Text>
-                    </Right>
-                  </CardItem>
-                </Card>
-                <Card>
-                  <CardItem style={{backgroundColor: Colors.bitterSweetRed}}>
-                    <Body>
-                    <Text style={{color: Colors.noticeText}}>Dues</Text>
-                    <Icon name='ios-sad' style={{color: Colors.noticeText}}/>
-                    </Body>
-                    <Right>
-                      <Text
-                        style={{color: Colors.noticeText}}>₹ {feesInfo.totalFeesDues.toFixed(2).replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,')}</Text>
-                    </Right>
-                  </CardItem>
-                </Card>
-              </Content>
-            </Row>
+              <Tab activeTabStyle={{ backgroundColor: Colors.white, border: 0 }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Students">
+                <StudentsTab studentList={studentList}/>
+              </Tab>
 
-            <View style={styles.line}/>
-            <Content style={styles.container}>
-              <Text style={{fontSize: 20}}>Academic Management</Text>
-              <Row>
-                <Col>
-                  <TouchableOpacity style={styles.touchable}
-                                    onPress={() => NavigationService.navigate("StandardScreen")}>
-                    <Card>
-                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                        <Body>
-                        <Text>
-                          Class/Standard
-                        </Text>
-                        </Body>
-                      </CardItem>
-                    </Card>
-                  </TouchableOpacity>
-                </Col>
-                <Col>
-                  <TouchableOpacity style={styles.touchable}
-                                    onPress={() => NavigationService.navigate("BatchScreen")}>
-                    <Card>
-                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                        <Body>
-                        <Text>
-                          Batch/Division
-                        </Text>
-                        </Body>
-                      </CardItem>
-                    </Card>
-                  </TouchableOpacity>
-                </Col>
-              </Row>
+              <Tab activeTabStyle={{ backgroundColor: Colors.white, borderWidth: 0 }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Fees Details">
+                <Text>This is tab 2</Text>
+              </Tab>
 
-              <Row>
-                <Col>
-                  <TouchableOpacity style={styles.touchable}
-                                    onPress={() => NavigationService.navigate("SubjectScreen")}>
-                    <Card>
-                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                        <Body>
-                        <Text>
-                          Subjects
-                        </Text>
-                        </Body>
-                      </CardItem>
-                    </Card>
-                  </TouchableOpacity>
-                </Col>
-                <Col>
-                  <TouchableOpacity style={styles.touchable}
-                                    onPress={() => NavigationService.navigate("ChapterScreen")}>
-                    <Card>
-                      <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                        <Body>
-                        <Text>
-                          Chapters
-                        </Text>
-                        </Body>
-                      </CardItem>
-                    </Card>
-                  </TouchableOpacity>
-                </Col>
-              </Row>
+              <Tab activeTabStyle={{ backgroundColor: Colors.white, borderWidth: 0 }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Academic Data">
+                <Text>This is tab 3</Text>
+              </Tab>
 
-              <Row>
-                <Col>
-                  <Card>
-                    <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                      <Body>
-                      <Text>
-                        Attendance
-                      </Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card>
-                    <CardItem style={{backgroundColor: Colors.mauvePink}}>
-                      <Body>
-                      <Text>
-                        Reports
-                      </Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
-                </Col>
-              </Row>
+              <Tab activeTabStyle={{ backgroundColor: Colors.white }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Statistics">
+                <Text>This is tab 4</Text>
+              </Tab>
 
-            </Content>
-          </Grid>
+              <Tab activeTabStyle={{ backgroundColor: Colors.white }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Reports">
+                <Text>This is tab 5</Text>
+              </Tab>
+
+            </Tabs>
+          </Container>
         </ScrollView>
       )
     }
@@ -240,9 +141,21 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  const {isLoggedIn, authorities, loginError, loginErrorMessage, authString} = state.user;
+  const {isLoggedIn, authorities, loginError, loginErrorMessage, authString, firstname, lastname, avatar} = state.user;
   const {studentList, errorMessage, isRequesting} = state.userData;
-  return {isLoggedIn, authorities, loginError, isRequesting, loginErrorMessage, authString, studentList, errorMessage};
+  return {
+    isLoggedIn,
+    authorities,
+    loginError,
+    isRequesting,
+    loginErrorMessage,
+    authString,
+    studentList,
+    errorMessage,
+    firstname,
+    lastname,
+    avatar
+  };
 }
 
 const mapDispatchToProps = {

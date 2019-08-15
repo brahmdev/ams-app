@@ -12,6 +12,9 @@ import base64 from "base-64";
 
 const initialState = {
   userName: '',
+  firstname: '',
+  lastname: '',
+  avatar: '',
   admin: '',
   isRequesting: false,
   isLoggedIn: false,
@@ -42,11 +45,14 @@ export default function (state = initialState, action) {
 
       //async () => await AsyncStorage.setItem('authString', base64.encode(payload.username + ':' + payload.password));
       const auth = base64.encode(payload.username + ':' + payload.password);
-      console.log('setting auth ', auth);
+      console.log('setting auth ', auth, ' : ', user);
       //setLoggeddIn();
       return {
         ...state,
         userName: user.userName,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        avatar: user.avatar,
         admin: false,
         isRequesting: false,
         isLoggedIn: true,

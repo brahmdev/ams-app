@@ -8,5 +8,5 @@ export {
   UsersAction,
   UserAccountDataAction,
   loginAction,
-  studentAction
+  studentAction,
 }

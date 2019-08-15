@@ -56,11 +56,14 @@ class UsersList extends Component {
     return null;
   };
 
-  renderUsers = (listProps) => {
+  renderUsers = (listProps, errorMessage) => {
     let userItems = [];
     listProps.items ? listProps.items.forEach(item => userItems.push(<UserItem key={item.username} item={item}
                                                                                onPressItem={listProps.onItemSelected}
                                                                                onDeleteItem={listProps.onDelete}/>)) : null;
+    if (userItems.length === 0 && errorMessage !== '') {
+      userItems.push(errorMessage);
+    }
     return userItems;
   };
 
@@ -72,7 +75,7 @@ class UsersList extends Component {
         />
       }>
         <List>
-          {this.renderUsers(this.props.listProps)}
+          {this.renderUsers(this.props.listProps, this.props.errorMessage)}
         </List>
       </Content>
     );

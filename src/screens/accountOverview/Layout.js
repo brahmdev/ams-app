@@ -3,6 +3,7 @@ import {View, ScrollView, TouchableOpacity} from 'react-native';
 import {Container, Content, Text, Card, CardItem, Body, Thumbnail, Left, Button, Icon, Right, Fab} from 'native-base';
 import styles from "./style";
 import AddFeesModal from "../../components/Student/AddFeesModal";
+import { callNumber } from "../../utils/callNumber";
 
 class Layout extends Component {
 
@@ -97,7 +98,7 @@ class Layout extends Component {
                 <Icon name="logo-whatsapp"/>
               </Button>
               <Button style={{backgroundColor: '#3B5998'}}>
-                <Icon name="logo-facebook"/>
+                <Icon name="ios-call"/>
               </Button>
               <Button disabled style={{backgroundColor: '#DD5144'}}>
                 <Icon name="mail"/>

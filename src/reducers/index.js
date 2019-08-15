@@ -9,6 +9,7 @@ import SubjectReducer from './subjectReducer';
 import ChapterReducer from './chapterReducer';
 import BatchReducer from './batchReducer';
 import StudentReducer from './studentReducer';
+import DashBoardReducer from './dashBoardReducer';
 
 const allReducers = combineReducers(
   {
@@ -21,7 +22,8 @@ const allReducers = combineReducers(
     subject: SubjectReducer,
     chapter: ChapterReducer,
     batch: BatchReducer,
-    userData: StudentReducer
+    userData: StudentReducer,
+    dashboard: DashBoardReducer
   });
 
 const rootReducer = (state, action) => allReducers(state, action);

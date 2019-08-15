@@ -22,6 +22,9 @@ export const branchActionTypes = {
   API_UPDATE_BRANCH: 'API_UPDATE_BRANCH'
 };
 
+export const dashBoardActionTypes = {
+  API_GET_DASHBOARD_DATA: 'API_GET_DASHBOARD_DATA'
+};
 
 export const boardActionTypes = {
   API_GET_ALL_BOARDS: 'API_GET_ALL_BOARDS',
