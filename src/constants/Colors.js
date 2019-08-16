@@ -15,6 +15,7 @@ export default {
   pageTitle: '#464646',
   inputBorder: '#d0d0d0',
   caribbeanGreen: '#3bb773',
+  mantis: '#7DCF64',
   purple: '#9E7BFF',
   violet: '#852b99',
   ferrariRed: '#FF2800',

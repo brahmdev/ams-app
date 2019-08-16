@@ -31,6 +31,7 @@ import Content from "../../components/Content";
 import Loading from "../../components/Loading";
 import NavigationService from "../../navigation/Navigation-Service";
 import StudentsTab from "./StudentsTab";
+import FeesDetailsTabs from "./FeesDetailsTabs";
 
 class HomeScreen extends Component {
 
@@ -87,33 +88,41 @@ class HomeScreen extends Component {
       return <Loading/>;
     } else {
       return (
-        <ScrollView>
-          <Container>
-            <Tabs tabBarUnderlineStyle={{ backgroundColor: Colors.tintColor, height: 2 }}  renderTabBar={() => <ScrollableTab/>}>
+        <Container>
+          <Tabs tabBarUnderlineStyle={{backgroundColor: Colors.tintColor, height: 2}}
+                renderTabBar={() => <ScrollableTab/>}>
 
-              <Tab activeTabStyle={{ backgroundColor: Colors.white, border: 0 }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Students">
+            <Tab activeTabStyle={{backgroundColor: Colors.white, border: 0}} tabStyle={{backgroundColor: Colors.white}}
+                 activeTextStyle={{color: Colors.pageTitle}} heading="Students">
+              <ScrollView>
                 <StudentsTab studentList={studentList}/>
-              </Tab>
+              </ScrollView>
+            </Tab>
 
-              <Tab activeTabStyle={{ backgroundColor: Colors.white, borderWidth: 0 }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Fees Details">
-                <Text>This is tab 2</Text>
-              </Tab>
+            <Tab activeTabStyle={{backgroundColor: Colors.white, borderWidth: 0}}
+                 tabStyle={{backgroundColor: Colors.white}} activeTextStyle={{color: Colors.pageTitle}}
+                 heading="Fees Details">
+              <FeesDetailsTabs feesInfo={feesInfo}/>
+            </Tab>
 
-              <Tab activeTabStyle={{ backgroundColor: Colors.white, borderWidth: 0 }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Academic Data">
-                <Text>This is tab 3</Text>
-              </Tab>
+            <Tab activeTabStyle={{backgroundColor: Colors.white, borderWidth: 0}}
+                 tabStyle={{backgroundColor: Colors.white}} activeTextStyle={{color: Colors.pageTitle}}
+                 heading="Academic Data">
+              <Text style={{padding: 10}}>This page is coming soon</Text>
+            </Tab>
 
-              <Tab activeTabStyle={{ backgroundColor: Colors.white }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Statistics">
-                <Text>This is tab 4</Text>
-              </Tab>
+            <Tab activeTabStyle={{backgroundColor: Colors.white}} tabStyle={{backgroundColor: Colors.white}}
+                 activeTextStyle={{color: Colors.pageTitle}} heading="Statistics">
+              <Text style={{padding: 10}}>This page is coming soon</Text>
+            </Tab>
 
-              <Tab activeTabStyle={{ backgroundColor: Colors.white }} tabStyle={{ backgroundColor: Colors.white }} activeTextStyle={{color: Colors.pageTitle}} heading="Reports">
-                <Text>This is tab 5</Text>
-              </Tab>
+            <Tab activeTabStyle={{backgroundColor: Colors.white}} tabStyle={{backgroundColor: Colors.white}}
+                 activeTextStyle={{color: Colors.pageTitle}} heading="Reports">
+              <Text style={{padding: 10}}>This page is coming soon</Text>
+            </Tab>
 
-            </Tabs>
-          </Container>
-        </ScrollView>
+          </Tabs>
+        </Container>
       )
     }
   }

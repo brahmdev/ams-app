@@ -2,6 +2,7 @@ import { dashBoardActionTypes, apiExecutionState} from '../actions/actionTypes';
 
 const initialState = {
   pieData: [],
+  standardList: [],
   errorMessage: '',
   isRequesting: false
 };
@@ -18,6 +19,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         pieData: dashBoardData.pieDataList,
+        standardList: dashBoardData.standardList,
         isRequesting: false
       };
     default:
