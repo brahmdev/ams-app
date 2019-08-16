@@ -15,12 +15,13 @@ class FeesDetailsTabs extends Component {
           width: "50%",
           borderRadius: 15
         }}>
-          <CardItem header style={[styles.cardItem, { backgroundColor: Colors.mantis}]}>
+          <CardItem header style={[styles.cardItem, { backgroundColor: Colors.scienceBlue}]}>
             <View style={styles.cardContent}>
-              <Icon name="md-arrow-up"/>
+              <Icon name="md-arrow-up" style={{color: Colors.white}}/>
             <Text style={{ color: Colors.white, fontSize: 22}}>₹ {this.props.feesInfo.totalFeesCollection}</Text>
             <Text style={{
-              marginTop: 30
+              marginTop: 30,
+              color: Colors.white
             }}>
               Fees Collection
             </Text>
@@ -32,12 +33,13 @@ class FeesDetailsTabs extends Component {
           width: "50%",
           borderRadius: 15
         }}>
-          <CardItem header style={[styles.cardItem, { backgroundColor: Colors.ferrariRed}]}>
+          <CardItem header style={[styles.cardItem, { backgroundColor: Colors.crimsonRed}]}>
             <View style={styles.cardContent}>
-              <Icon name="md-arrow-down"/>
+              <Icon name="md-arrow-down" style={{color: Colors.white}}/>
               <Text style={{ color: Colors.white, fontSize: 22}}>₹ {this.props.feesInfo.totalFeesDues}</Text>
             <Text style={{
-              marginTop: 30
+              marginTop: 30,
+              color: Colors.white
             }}>
               Fees Dues
             </Text>
