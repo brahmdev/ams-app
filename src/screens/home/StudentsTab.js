@@ -23,7 +23,6 @@ class StudentsTab extends Component {
   }
 
   renderChart = () => {
-    console.log('piedata ', this.props.pieData);
     if (this.props.pieData.length === 0) {
       return null;
     } else {
