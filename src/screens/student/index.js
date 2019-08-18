@@ -160,7 +160,7 @@ class StudentScreen extends Component {
     return (
       <View style={styles.filterBox}>
         <Text style={styles.searchCount}>{this.state.searchData.length} Students Found</Text>
-        <Button light small onPress={() => this.clearFilter}>
+        <Button light small onPress={() => this.clearFilter()}>
           <Text>Clear Filter</Text>
         </Button>
         <Icon style={{color: Colors.tintColor}} name="md-options" onPress={() => this.openDrawer()}/>
