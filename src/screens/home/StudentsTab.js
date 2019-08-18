@@ -5,7 +5,7 @@ import {Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import {PieChart} from 'react-native-chart-kit'
 import {getDashBoardData} from "../../actions/dashBoardActions";
 import {STANDARD_COLOR} from "../../utils";
-import Colors from "../../constants/Colors";
+import NavigationService from "../../navigation/Navigation-Service";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -94,7 +94,7 @@ class StudentsTab extends Component {
             backgroundColor: STANDARD_COLOR.get(count),
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
+          }} onPress={() => NavigationService.navigate("StudentScreen", {standardCode: standard.code,})}>
             <Text style={styles.highlightText}>{standard.name}</Text>
           </TouchableOpacity>
         )
@@ -118,7 +118,7 @@ class StudentsTab extends Component {
             style={{fontSize: 18, color: '#303030', fontWeight: '500'}}
             numberOfLines={1}
           >Your highlights</Text>
-          <Text style={{color: '#4cb0e1'}}>More</Text>
+          <Text style={{color: '#4cb0e1'}} onPress={() => NavigationService.navigate("StudentScreen")}>More</Text>
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>
           {this.renderStandardList()}

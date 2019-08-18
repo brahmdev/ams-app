@@ -16,7 +16,6 @@ export default class Filter extends Component {
   renderStandardList = (standardList, selectedStandard, onPressItem) => {
     let items = [];
     for (const standard of standardList) {
-      console.log('standard ', selectedStandard , ' : standard ', standard.code, ' : ', (standard.code === selectedStandard));
       let isSelected = false;
       let backgroundColor = '';
       if (standard.code === selectedStandard) {
@@ -44,6 +43,7 @@ export default class Filter extends Component {
       <View style={styles.containerMain}>
         <View style={styles.content}>
           <View style={styles.header}>
+            <Icon name='ios-arrow-back' onPress={() => this.props.closeDrawer()}/>
             <Text style={styles.headerTitle}>Refine</Text>
           </View>
           <ScrollView>
@@ -51,17 +51,6 @@ export default class Filter extends Component {
               {this.renderStandardList(standardList, selectedStandard, onPressItem)}
             </List>
           </ScrollView>
-          <View style={styles.bottomView}>
-            <Button iconLeft info onPress={() => this.props.closeDrawer()}>
-              <Icon name='arrow-back'/>
-              <Text>Back</Text>
-            </Button>
-            <Button iconRight success>
-              <Text>Apply</Text>
-              <Icon name='ios-funnel'/>
-            </Button>
-          </View>
-
         </View>
       </View>
     );
@@ -77,7 +66,8 @@ const styles = {
   header: {
     paddingTop: 10,
     paddingBottom: 10,
-    justifyContent: 'center',
+    marginLeft: 10,
+    flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: Colors.tabIconDefault
@@ -85,7 +75,8 @@ const styles = {
   headerTitle: {
     fontSize: 18,
     fontWeight: '400',
-    color: Colors.warningText
+    color: Colors.warningText,
+    paddingLeft: 20
   },
   content: {
     height: '100%',

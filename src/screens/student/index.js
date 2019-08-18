@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Alert, ScrollView, RefreshControl} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import {getAllStudents, deleteStudent, updateStudentDataInStore} from "../../actions/studentActions";
 import {getUserInfo} from "../../actions/User-Information-Action";
 import NavigationService from "../../navigation/Navigation-Service";
@@ -8,7 +8,6 @@ import Layout from "./Layout";
 import {
   View,
   Text,
-  Thumbnail,
   Icon,
   Container,
   Content,
@@ -18,7 +17,7 @@ import {
   Body,
   Right,
   Input,
-  Picker,
+  Button,
   Drawer
 } from "native-base";
 import Loading from "../../components/Loading";
@@ -54,10 +53,23 @@ class StudentScreen extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.studentList.length > 0 && prevState.searchText === '' && prevState.filteredStandardCode === '') {
+    console.log('navigation in list ', nextProps.navigation.state);
+    if (nextProps.navigation.state.params && nextProps.navigation.state.params.standardCode !== '' && nextProps.studentList.length > 0) {
+      const newData = nextProps.studentList.filter(item => {
+        const itemData = `${item.studentDetailses[0].batch.standard.code.toUpperCase()}`;
+
+        const textData = nextProps.navigation.state.params.standardCode.toUpperCase();
+
+        return itemData.indexOf(textData) > -1;
+      });
+      nextProps.navigation.setParams({
+        standardCode: ''
+      });
+      return ({searchData: newData, filteredStandardCode: nextProps.navigation.state.params.standardCode});
+    } else if (nextProps.studentList.length > 0 && prevState.searchText === '' && prevState.filteredStandardCode === '') {
       return ({searchData: nextProps.studentList});
     }
-    return null;
+    return true;
   };
 
   static goBack = () => {
@@ -135,10 +147,22 @@ class StudentScreen extends Component {
     )
   };
 
+  clearFilter = () => {
+    this.setState({
+      selectedStandard: '',
+      filteredStandardCode: '',
+      searchData: '',
+      searchText: ''
+    })
+  };
+
   renderFilter = () => {
     return (
       <View style={styles.filterBox}>
         <Text style={styles.searchCount}>{this.state.searchData.length} Students Found</Text>
+        <Button light small onPress={() => this.clearFilter}>
+          <Text>Clear Filter</Text>
+        </Button>
         <Icon style={{color: Colors.tintColor}} name="md-options" onPress={() => this.openDrawer()}/>
       </View>
     );
@@ -179,7 +203,7 @@ class StudentScreen extends Component {
   };
 
   onStandardSelectedInFilter = (standardCode) => {
-    this.setState({ filteredStandardCode: standardCode });
+    this.setState({filteredStandardCode: standardCode});
     const newData = this.props.studentList.filter(item => {
       const itemData = `${item.studentDetailses[0].batch.standard.code.toUpperCase()}`;
 
@@ -199,7 +223,9 @@ class StudentScreen extends Component {
         ref={(ref) => {
           this.drawer = ref;
         }}
-        content={<Filter closeDrawer={() => this.closeDrawer()} standardList={this.props.standardList} selectedStandard={this.state.filteredStandardCode} onPressItem={this.onStandardSelectedInFilter}/>}>
+        content={<Filter closeDrawer={() => this.closeDrawer()} standardList={this.props.standardList}
+                         selectedStandard={this.state.filteredStandardCode}
+                         onPressItem={this.onStandardSelectedInFilter}/>}>
         <Container style={styles.container}>
           <Content>
             <View style={styles.header}>
