@@ -8,6 +8,7 @@ export default {
   errorBackground: 'red',
   errorText: '#fff',
   white: '#FFF',
+  whitesmoke: '#F5F5F5',
   warningBackground: '#EAEB5E',
   warningText: '#666804',
   noticeBackground: tintColor,

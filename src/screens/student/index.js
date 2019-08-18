@@ -47,12 +47,14 @@ class StudentScreen extends Component {
       searchData: [],
       searchText: '',
       selected: "-1",
-      showFilter: false
+      showFilter: false,
+      selectedStandard: '',
+      filteredStandardCode: ''
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.studentList.length > 0 && prevState.searchText === '') {
+    if (nextProps.studentList.length > 0 && prevState.searchText === '' && prevState.filteredStandardCode === '') {
       return ({searchData: nextProps.studentList});
     }
     return null;
@@ -82,13 +84,7 @@ class StudentScreen extends Component {
     return <FooterComponent/>
   };
 
-  toggleDrawer = () => {
-    console.log('toggle drawer called');
-    this.setState({showFilter: !this.state.showFilter});
-  };
-
   onStudentDelete = (studentId, firstname) => {
-    console.log('userData to be deleted is ', studentId);
     Alert.alert(
       'Confirm Delete',
       'Are you sure want to delete ' + firstname + '?',
@@ -115,7 +111,6 @@ class StudentScreen extends Component {
 
       return itemData.indexOf(textData) > -1;
     });
-    console.log('new data is  ', newData[0].firstname);
     this.setState({searchData: newData});
   };
 
@@ -144,18 +139,16 @@ class StudentScreen extends Component {
     return (
       <View style={styles.filterBox}>
         <Text style={styles.searchCount}>{this.state.searchData.length} Students Found</Text>
-        <Icon style={{color: Colors.tintColor}} name="md-options" onPress={() => this.toggleDrawer()}/>
+        <Icon style={{color: Colors.tintColor}} name="md-options" onPress={() => this.openDrawer()}/>
       </View>
     );
   };
 
   renderStudentList = () => {
-    console.log('in list ', this.state.searchData[0].firstname);
     const {studentList, errorMessage, isRequesting} = this.props;
     if (isRequesting) {
       return <Loading/>;
-    } else if (this.state.searchData.length > 5) {
-      console.log('searchData length ', this.state.searchData.length);
+    } else if (this.state.searchData.length > 0) {
       const {isLoading, refreshing, searchData} = this.state;
       const items = searchData;
       const listProps = {
@@ -171,36 +164,52 @@ class StudentScreen extends Component {
       return <Layout listProps={listProps} isRequesting={isRequesting} errorMessage={errorMessage}/>
     } else {
       return (
-        <View style={{height: 300, marginRight: 20}}>
+        <View style={{height: 300, marginLeft: 20}}>
           <Text>No Student exist.</Text>
         </View>
       )
     }
   };
 
+  closeDrawer = () => {
+    this.drawer._root.close()
+  };
+  openDrawer = () => {
+    this.drawer._root.open()
+  };
+
+  onStandardSelectedInFilter = (standardCode) => {
+    this.setState({ filteredStandardCode: standardCode });
+    const newData = this.props.studentList.filter(item => {
+      const itemData = `${item.studentDetailses[0].batch.standard.code.toUpperCase()}`;
+
+      const textData = standardCode.toUpperCase();
+
+      return itemData.indexOf(textData) > -1;
+    });
+    this.setState({searchData: newData});
+
+  };
+
   renderContent() {
     const {isRequesting} = this.props;
-    console.log('Drawer.defaultProps.styles.mainOverlay ', Drawer.defaultProps.styles.mainOverlay);
     return (
-      <Container style={styles.container}>
-        <Content>
-          <View style={styles.header}>
-            {this.renderHeader()}
-            {this.renderFilter()}
-          </View>
-          <Drawer
-            styles={{mainOverlay: 0}}
-            side="right"
-            open={this.state.showFilter}
-            ref={(ref) => {
-              this.filterDrawer = ref;
-            }}
-            content={<Filter toggleDrawer={()  => this.toggleDrawer()}/>}
-          >
-          </Drawer>
-          {this.renderStudentList()}
-        </Content>
-      </Container>
+      <Drawer
+        side="right"
+        ref={(ref) => {
+          this.drawer = ref;
+        }}
+        content={<Filter closeDrawer={() => this.closeDrawer()} standardList={this.props.standardList} selectedStandard={this.state.filteredStandardCode} onPressItem={this.onStandardSelectedInFilter}/>}>
+        <Container style={styles.container}>
+          <Content>
+            <View style={styles.header}>
+              {this.renderHeader()}
+              {this.renderFilter()}
+            </View>
+            {this.renderStudentList()}
+          </Content>
+        </Container>
+      </Drawer>
     )
   }
 
@@ -213,6 +222,7 @@ class StudentScreen extends Component {
 function mapStateToProps(state) {
   const {isLoggedIn, authorities, loginError, loginErrorMessage, authString, avatar} = state.user;
   const {studentList, errorMessage, isRequesting} = state.userData;
+  const {standardList} = state.dashboard;
   return {
     isLoggedIn,
     authorities,
@@ -222,7 +232,8 @@ function mapStateToProps(state) {
     authString,
     studentList,
     errorMessage,
-    avatar
+    avatar,
+    standardList
   };
 }
 
