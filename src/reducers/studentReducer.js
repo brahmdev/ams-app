@@ -74,7 +74,6 @@ export default function (state = initialState, action) {
           return b.id - a.id;
         });
       }
-      //console.log('studentList ', studentList);
       return {
         ...state,
         studentList,

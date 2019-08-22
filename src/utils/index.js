@@ -6,7 +6,7 @@ export function actionWith(action, data) {
   return finalAction;
 }
 
-export const SERVER_BASE_PATH = 'http://192.168.10.180:8080';
+export const SERVER_BASE_PATH = 'http://www.devarena.in';
 
 export const STANDARD_COLOR = new Map()
   .set(1, Colors.caribbeanGreen)

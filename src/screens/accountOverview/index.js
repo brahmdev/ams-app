@@ -64,7 +64,6 @@ class AccountOverviewScreen extends Component {
     studentDetailses[0].feesCollections.unshift(feesCollection);
     studentDetailses[0].paidFees = parseInt(this.state.studentDetailses[0].paidFees) + parseInt(feesCollection.amount);
     await this.setState({studentDetailses});
-    console.log('stuentdetails in add fees ', this.state.studentDetailses);
     this.props.saveOrUpdateUser(this.state, this.props.user.authString);
     //this.props.updateFeesCollectionInStore(feesCollection);
     Toast.show({
@@ -119,7 +118,6 @@ class AccountOverviewScreen extends Component {
 
   render() {
     const {isRequesting, userData} = this.props;
-    console.log('userdata ', userData.firstname, ' : ', userData.paidFees);
     return (
       <Layout
         user={userData}

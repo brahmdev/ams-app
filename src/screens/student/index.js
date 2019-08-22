@@ -53,7 +53,6 @@ class StudentScreen extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('navigation in list ', nextProps.navigation.state);
     if (nextProps.navigation.state.params && nextProps.navigation.state.params.standardCode !== '' && nextProps.studentList.length > 0) {
       const newData = nextProps.studentList.filter(item => {
         const itemData = `${item.studentDetailses[0].batch.standard.code.toUpperCase()}`;

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Text, Icon, Card, CardItem, Body} from 'native-base';
-import {Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import {Dimensions, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {PieChart} from 'react-native-chart-kit'
 import {getDashBoardData} from "../../actions/dashBoardActions";
 import {STANDARD_COLOR} from "../../utils";
 import NavigationService from "../../navigation/Navigation-Service";
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 class StudentsTab extends Component {
 
@@ -22,36 +23,42 @@ class StudentsTab extends Component {
     this.props.getDashBoardData(1, this.props.authString);
   }
 
-  renderChart = () => {
-    if (this.props.pieData.length === 0) {
-      return null;
-    } else {
-      return (
-        <View style={{paddingRight: 20}}>
-          <PieChart
-            data={this.props.pieData}
-            width={screenWidth} // from react-native
-            height={220}
-            yAxisLabel={'$'}
-            chartConfig={{
-              backgroundColor: '#1cc910',
-              backgroundGradientFrom: '#eff3ff',
-              backgroundGradientTo: '#efefef',
-              decimalPlaces: 2,
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            accessor="studentCount"
-            backgroundColor="transparent"
-            paddingLeft="15"
-            paddingRight="20"
-            absolute
-          />
-        </View>
-      )
+  studentListEmpty = (pieDataList) => {
+    let noStudentPresent = true;
+    for (let pieData of pieDataList) {
+      if (pieData.studentCount) {
+        noStudentPresent = false;
+      }
     }
+    return noStudentPresent;
+  };
+
+  renderChart = () => {
+    return (
+      <View style={{paddingRight: 20}}>
+        <PieChart
+          data={this.props.pieData}
+          width={screenWidth} // from react-native
+          height={220}
+          yAxisLabel={'$'}
+          chartConfig={{
+            backgroundColor: '#1cc910',
+            backgroundGradientFrom: '#eff3ff',
+            backgroundGradientTo: '#efefef',
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          accessor="studentCount"
+          backgroundColor="transparent"
+          paddingLeft="15"
+          paddingRight="20"
+          absolute
+        />
+      </View>
+    )
   };
 
   renderStudentCount = () => {
@@ -104,11 +111,9 @@ class StudentsTab extends Component {
     return items;
   };
 
-  render() {
+  renderHighLights = () => {
     return (
       <View>
-        {this.renderChart()}
-        {this.renderStudentCount()}
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -123,6 +128,39 @@ class StudentsTab extends Component {
         <View style={{flex: 1, flexDirection: 'row'}}>
           {this.renderStandardList()}
         </View>
+      </View>
+    )
+  };
+
+  renderData = () => {
+    if (this.studentListEmpty(this.props.pieData)) {
+      return (
+        <View>
+          <Image
+            style={{
+              width: '100%',
+              height: undefined,
+              aspectRatio: 1,
+            }}
+            source={{uri: 'https://cdn.dribbble.com/users/1554526/screenshots/3399669/no_results_found.png'}}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          {this.renderChart()}
+          {this.renderStudentCount()}
+          {this.renderHighLights()}
+        </View>
+      )
+    }
+  };
+
+  render() {
+    return (
+      <View>
+        {this.renderData()}
       </View>
     );
   }

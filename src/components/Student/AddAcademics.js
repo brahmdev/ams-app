@@ -6,7 +6,6 @@ import {ScrollView, StyleSheet} from "react-native";
 class AddAcademics extends Component {
 
   handleChange = (name, value) => {
-    //console.log('name is ', name)
     if (name === "standard") {
       this.props.onStandardChange(value);
     } else if (name === 'hasPaidFees') {
@@ -14,7 +13,6 @@ class AddAcademics extends Component {
         this.props.onChange({name: 'hasPaidFees', value: this.state.hasPaidFees})
       })
     }
-    //console.log('name: ', name, ' value : ', value);
     this.props.onChange(name, value);
   };
 
@@ -33,7 +31,6 @@ class AddAcademics extends Component {
     batchMenuItem.push(<Picker.Item key={`-1`} label={'No batch selected'} value={'-1'}></Picker.Item>);
 
     const batchLookUp = this.props.batchLookUp;
-    //console.log('batchLookup ', batchLookUp);
     if (batchLookUp) {
       for (let key of Object.keys(batchLookUp)) {
         batchMenuItem.push(<Picker.Item key={`batch_${key}`} label={batchLookUp[key]} value={key}></Picker.Item>);

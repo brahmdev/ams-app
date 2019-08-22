@@ -26,7 +26,6 @@ export default (store) => (next) => (action) => {
   );
 
   makeRequest(store, action, next).catch((error) => {
-    console.log('in failure ', error)
     notifyReducersWithFailure(action, next, error);
     executeNextFailureHandlers(action, store, error);
   });
@@ -49,7 +48,7 @@ async function makeRequest(store, action, next) {
     headers.append('Authorization', 'Basic ' + authString);
   }
 
-  console.log('headers are ', headers, ' and url is: ', url, ' with action type: ', action.type);
+  //console.log('headers are ', headers, ' and url is: ', url, ' with action type: ', action.type);
   if (options.contentType) {
     headers.append('content-type', options.contentType);
   }

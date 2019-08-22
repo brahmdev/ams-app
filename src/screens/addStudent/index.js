@@ -144,7 +144,6 @@ class AddStudentScreen extends Component {
   };
 
   onPersonalDetailComplete = () => {
-    console.log('studentPersonalDetailsFieldsValue ', this.studentPersonalDetailsFieldsValue);
     const { firstname, lastname, address, username} = this.studentUser;
     if (firstname === undefined || lastname === undefined || address === undefined || username === undefined) {
       this.setState({
@@ -168,7 +167,6 @@ class AddStudentScreen extends Component {
 
   showErrorOnPersonalDetailField = (firstname, lastname, address, username) => {
     let errorFields = [];
-    console.log(address, ' : ', username);
     if (firstname === undefined) {
       errorFields.push("firstname");
     }
@@ -307,7 +305,6 @@ class AddStudentScreen extends Component {
     this.props.createUser(this.studentUser, this.props.user.authString);
     this.props.createUser(this.parentUser, this.props.user.authString);
 
-    console.log('student data is ', this.studentUser);
     let formData = new FormData();
     formData.append('file', {
       uri : this.avatar,
@@ -393,7 +390,6 @@ class AddStudentScreen extends Component {
   };
 
   onAvatarChange = (avatar)  => {
-    console.log('this.avatar is ', avatar);
     this.avatar = avatar;
   };
 

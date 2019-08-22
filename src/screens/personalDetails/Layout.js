@@ -13,7 +13,6 @@ class Layout extends Component {
   }
 
   componentDidMount() {
-    console.log('gender ', this.props.user.gender);
     this.state = {
       gender: this.props.user.gender
     };

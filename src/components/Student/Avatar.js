@@ -44,7 +44,6 @@ export default class Avatar extends React.Component {
       aspect: [4, 3],
       quality: 0.3,
     });
-    console.log('image taken with result: ', result);
 
     if (!result.cancelled) {
       this.setState({ avatar: result.uri });

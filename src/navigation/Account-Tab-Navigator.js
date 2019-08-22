@@ -19,7 +19,6 @@ const withUserParams = (WrappedComponent) => {
       const {navigation} = this.props;
       const {user, onGoBack} = navigation.state.params;
       const screenProps = {user, onGoBack};
-      //console.log('user in navigator ', screenProps.user);
       return <WrappedComponent navigation={navigation} screenProps={screenProps}/>;
     }
   }

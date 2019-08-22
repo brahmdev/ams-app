@@ -45,7 +45,6 @@ export default function (state = initialState, action) {
 
       //async () => await AsyncStorage.setItem('authString', base64.encode(payload.username + ':' + payload.password));
       const auth = base64.encode(payload.username + ':' + payload.password);
-      console.log('setting auth ', auth, ' : ', user);
       //setLoggeddIn();
       return {
         ...state,

@@ -97,7 +97,6 @@ export function saveOrUpdateUser(user, authString) {
 }
 
 export function uploadImage(formData, authString) {
-  console.log('formdata is ', formData);
   return {
     type: imageActionType.API_UPLOAD_AVATAR,
     apiType: CALL_API,
