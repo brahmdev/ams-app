@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, TouchableOpacity, RefreshControl} from "react-native";
-import {Container, View, Left, Body, Content, Right, List, ListItem, Text, Thumbnail, Icon, Button} from 'native-base';
+import {RefreshControl, StyleSheet, TouchableOpacity} from "react-native";
+import {Body, Button, Content, Left, List, ListItem, Right, Text, Thumbnail} from 'native-base';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 const UserItem = ({item, onPressItem, onDeleteItem}) => {
   if (item.username !== '') {
     return (
-        <ListItem avatar>
-          <TouchableOpacity style={styles.touchable}  onPress={() => onPressItem(item)}>
+        <ListItem avatar onPress={() => onPressItem(item)}>
           <Left>
             <Thumbnail source={{uri: item.avatar ? item.avatar : 'https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg'}}/>
           </Left>
@@ -22,11 +22,10 @@ const UserItem = ({item, onPressItem, onDeleteItem}) => {
             <TouchableOpacity>
               <Button transparent style={{height: 10, marginTop: 10}}
                       onPress={() => onDeleteItem(item.id, item.firstname)}>
-                <Icon name="ios-trash" style={{color: '#FF3860'}}/>
+                <MaterialCommunityIcons name="trash-can-outline" style={{color: '#1272e6', fontSize: 24, marginRight: 10}}/>
               </Button>
             </TouchableOpacity>
           </Right>
-          </TouchableOpacity>
         </ListItem>
 
     );

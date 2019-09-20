@@ -1,30 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Alert, TouchableOpacity} from 'react-native';
-import {getAllStudents, deleteStudent, updateStudentDataInStore} from "../../actions/studentActions";
+import {Alert, ScrollView} from 'react-native';
+import {deleteStudent, getAllStudents, updateStudentDataInStore} from "../../actions/studentActions";
 import {getUserInfo} from "../../actions/User-Information-Action";
 import NavigationService from "../../navigation/Navigation-Service";
 import Layout from "./Layout";
-import {
-  View,
-  Text,
-  Icon,
-  Container,
-  Content,
-  Card,
-  CardItem,
-  Left,
-  Body,
-  Right,
-  Input,
-  Button,
-  Drawer
-} from "native-base";
+import {Body, Button, Card, CardItem, Container, Content, Drawer, Icon, Input, Left, Text, View} from "native-base";
 import Loading from "../../components/Loading";
 import Filter from './Filter';
 import Colors from "../../constants/Colors";
-
-//Drawer.defaultProps.styles.mainOverlay.elevation = 0;
 
 class StudentScreen extends Component {
 
@@ -129,18 +113,15 @@ class StudentScreen extends Component {
     return (
       <Card style={styles.searchBox}>
         <CardItem style={styles.cardItem}>
-          <Left style={{flex: 0, marginRight: 5}}>
-            <Icon name="ios-arrow-back" onPress={() => NavigationService.goBack()}/>
+          <Left style={{flex: 1, marginRight: 5}}>
+            <Button  onPress={() => NavigationService.goBack()} transparent><Icon name="ios-arrow-back"/></Button>
           </Left>
           <Body style={{flex: 4}}>
-          <Input placeholder="Search student"
+          <Input placeholder="Search student..."
                  value={this.state.searchText}
                  returnKeyType={'search'}
                  onChangeText={text => this.searchFilterFunction(text)}/>
           </Body>
-          <Right style={{flex: 0, marginLeft: 5}}>
-            <Icon name="ios-microphone" style={{color: 'black'}} onPress={() => alert('feature coming soon')}/>
-          </Right>
         </CardItem>
       </Card>
     )
@@ -184,7 +165,11 @@ class StudentScreen extends Component {
         renderFooter: this.renderFooter,
         onDelete: this.onStudentDelete
       };
-      return <Layout listProps={listProps} isRequesting={isRequesting} errorMessage={errorMessage}/>
+      return (
+        <ScrollView>
+          <Layout listProps={listProps} isRequesting={isRequesting} errorMessage={errorMessage}/>
+        </ScrollView>
+      );
     } else {
       return (
         <View style={{height: 300, marginLeft: 20}}>

@@ -1,37 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {NavbarTitle} from '../../components';
 import {getAllStudents} from "../../actions/studentActions";
 import {getUserInfo} from "../../actions/User-Information-Action";
-import {ScrollView, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
-import {
-  Container,
-  View,
-  Text,
-  Grid,
-  Row,
-  Col,
-  Card,
-  CardItem,
-  Body,
-  Right,
-  Left,
-  Icon,
-  Button,
-  ListItem,
-  Thumbnail,
-  Header,
-  Tabs,
-  Tab,
-  TabHeading,
-  ScrollableTab
-} from "native-base";
+import {ScrollView, StyleSheet} from 'react-native';
+import {Container, Icon, ScrollableTab, Tab, Tabs, Text, Thumbnail} from "native-base";
 import Colors from "../../constants/Colors";
-import Content from "../../components/Content";
 import Loading from "../../components/Loading";
-import NavigationService from "../../navigation/Navigation-Service";
 import StudentsTab from "./StudentsTab";
 import FeesDetailsTabs from "./FeesDetailsTabs";
+import AttendanceTab from "./AttendanceTab";
 
 class HomeScreen extends Component {
 
@@ -105,14 +82,14 @@ class HomeScreen extends Component {
               <FeesDetailsTabs feesInfo={feesInfo}/>
             </Tab>
 
+            <Tab activeTabStyle={{backgroundColor: Colors.white}} tabStyle={{backgroundColor: Colors.white}}
+                 activeTextStyle={{color: Colors.pageTitle}} heading="Student Attendance">
+              <AttendanceTab/>
+            </Tab>
+
             <Tab activeTabStyle={{backgroundColor: Colors.white, borderWidth: 0}}
                  tabStyle={{backgroundColor: Colors.white}} activeTextStyle={{color: Colors.pageTitle}}
                  heading="Academic Data">
-              <Text style={{padding: 10}}>This page is coming soon</Text>
-            </Tab>
-
-            <Tab activeTabStyle={{backgroundColor: Colors.white}} tabStyle={{backgroundColor: Colors.white}}
-                 activeTextStyle={{color: Colors.pageTitle}} heading="Statistics">
               <Text style={{padding: 10}}>This page is coming soon</Text>
             </Tab>
 
