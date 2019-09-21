@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Alert, ScrollView} from 'react-native';
+import {Alert} from 'react-native';
 import {deleteStudent, getAllStudents, updateStudentDataInStore} from "../../actions/studentActions";
 import {getUserInfo} from "../../actions/User-Information-Action";
 import NavigationService from "../../navigation/Navigation-Service";
 import Layout from "./Layout";
-import {Body, Button, Card, CardItem, Container, Content, Drawer, Icon, Input, Left, Text, View} from "native-base";
+import {Body, Button, Card, CardItem, Drawer, Icon, Input, Left, Right, Text, View} from "native-base";
 import Loading from "../../components/Loading";
 import Filter from './Filter';
 import Colors from "../../constants/Colors";
+import {MaterialIcons} from '@expo/vector-icons';
 
 class StudentScreen extends Component {
 
@@ -114,14 +115,17 @@ class StudentScreen extends Component {
       <Card style={styles.searchBox}>
         <CardItem style={styles.cardItem}>
           <Left style={{flex: 1, marginRight: 5}}>
-            <Button  onPress={() => NavigationService.goBack()} transparent><Icon name="ios-arrow-back"/></Button>
+            <Button  onPress={() => NavigationService.goBack()} transparent><MaterialIcons name="arrow-back" style={ { fontSize: 24 }}/></Button>
           </Left>
-          <Body style={{flex: 4}}>
+          <Body style={{flex: 5}}>
           <Input placeholder="Search student..."
                  value={this.state.searchText}
                  returnKeyType={'search'}
                  onChangeText={text => this.searchFilterFunction(text)}/>
           </Body>
+          <Right style={{flex: 1, marginRight: 5}}>
+            <Button  onPress={() => this.setState({searchText: ''})} transparent><MaterialIcons name="close" style={ { fontSize: 24 }}/></Button>
+          </Right>
         </CardItem>
       </Card>
     )
@@ -166,9 +170,7 @@ class StudentScreen extends Component {
         onDelete: this.onStudentDelete
       };
       return (
-        <ScrollView>
-          <Layout listProps={listProps} isRequesting={isRequesting} errorMessage={errorMessage}/>
-        </ScrollView>
+        <Layout listProps={listProps} isRequesting={isRequesting} errorMessage={errorMessage}/>
       );
     } else {
       return (
@@ -210,15 +212,13 @@ class StudentScreen extends Component {
         content={<Filter closeDrawer={() => this.closeDrawer()} standardList={this.props.standardList}
                          selectedStandard={this.state.filteredStandardCode}
                          onPressItem={this.onStandardSelectedInFilter}/>}>
-        <Container style={styles.container}>
-          <Content>
+          <View style={{ flex: 1}}>
             <View style={styles.header}>
               {this.renderHeader()}
               {this.renderFilter()}
             </View>
             {this.renderStudentList()}
-          </Content>
-        </Container>
+          </View>
       </Drawer>
     )
   }
@@ -264,10 +264,10 @@ const styles = {
     marginRight: 20,
   },
   searchBox: {
-    borderRadius: 10
+    borderRadius: 10,
+    height: 50
   },
   cardItem: {
-    flex: 4,
     height: 50,
     borderRadius: 10
   },

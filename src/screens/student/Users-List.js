@@ -68,7 +68,7 @@ class UsersList extends Component {
 
   render() {
     return (
-      <Content refreshControl={
+      <Content style={{ flex: 1 }} refreshControl={
         <RefreshControl refreshing={this.state.refreshing}
                         onRefresh={() => this._onRefresh()}
         />
