@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "2.0.0",
+    "version": "2.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "splash": {
@@ -31,7 +31,7 @@
     },
     "android": {
       "package": "com.ams.rs",
-      "versionCode": 2
+      "versionCode": 2.01
     },
     "web": {
       "build": {
