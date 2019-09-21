@@ -31,7 +31,7 @@
     },
     "android": {
       "package": "com.ams.rs",
-      "versionCode": 2.01
+      "versionCode": 3
     },
     "web": {
       "build": {
